@@ -1,0 +1,62 @@
+<app-header></app-header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2">
+            <h1 class="text-center font-bold">Автори</h1>
+            <mat-form-field appearance="outline" class="w-responsive">
+                <mat-label>Пребарај</mat-label>
+                <input matInput type="next" name="searchString" [(ngModel)]="searchString" (ngModelChange)="filterData()">
+            </mat-form-field>
+
+            <button *ngIf="showAuthorsForm == false" class="btn btn-primary m-2" (click)="openAuthorsForm();"><span class="font-bold mr-1">+</span>Додади автор</button>
+            <button *ngIf="showAuthorsForm == true" class="btn btn-primary m-2" (click)="openAuthorsForm();"><span class="font-bold mr-1">X</span>Сокриј</button>
+
+
+            <div *ngIf="showAuthorsForm == true">
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 float-sm-end float-md-start float-lg-start float-xl-start mt-3 mb-5">
+                    <div class="flex-1 overflow-hidden bg-white rounded-lg shadow-xl">
+                        <div class="div-1 flex justify-center sm:p-12">
+                            <div>
+                                <div class="alert alert-warning" [hidden]="alert_warning==false">Авторот постои</div>
+                                <form [formGroup]="authorForm">
+                                    <div *ngIf="authorForm.controls['full_name_c'].invalid && (authorForm.controls['full_name_c'].dirty || authorForm.controls['full_name_c'].touched)" class="alert alert-danger">
+                                        <div *ngIf="authorForm.controls['full_name_c'].errors">
+                                            Внесете име на кирилица со мин. 3 мах. 30 карактери
+                                        </div>
+                                    </div>
+                                    <div *ngIf="authorForm.controls['full_name_l'].invalid && (authorForm.controls['full_name_l'].dirty || authorForm.controls['full_name_l'].touched)" class="alert alert-danger">
+                                        <div *ngIf="authorForm.controls['full_name_l'].errors">
+                                            Внесете име на латиница со мин. 3 мах. 30 карактери
+                                        </div>
+                                    </div>
+                                    <mat-form-field class="w-100 mt-2 mb-1" appearance="outline">
+                                        <mat-label>Име и презиме на кирилица</mat-label>
+                                        <input formControlName="full_name_c" matInput minlength="3" maxlength="30" required>
+                                    </mat-form-field>
+                                    <mat-form-field class="mt-1 w-100 mt-2 mb-1" appearance="outline">
+                                        <mat-label>Име и презиме на латиница</mat-label>
+                                        <input formControlName="full_name_l" matInput minlength="3" maxlength="30">
+                                    </mat-form-field>
+                                </form>
+                                <button class="btn btn-primary mt-4 w-100" mat-raised-button color="primary" *ngIf="editMode == false" (click)="addAuthor()">Додади автор</button>
+                                <div class="text-center" *ngIf="editMode == true">
+                                    <button class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3   mt-3 mx-1 " mat-raised-button color="primary" (click)="editAuthor(authorID); editMode = false">Измени</button>
+                                    <button class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-5   mt-3 mx-1" mat-raised-button color="primary" (click)="editMode = false; this.resetForm();">Откажи Измени</button>
+                                    <button class="btn btn-danger  col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3   mt-3 mx-1" mat-raised-button color="warn" (click)="deleteAuthor(authorID, authorName)">Избриши</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-results mt-2 mb-5 mr-1" id="infinite-1" infinite-scroll [infiniteScrollDistance]="2" [scrollWindow]="false" (scrolled)="onScroll()">
+                <div *ngFor="let author of authorsList | filterAll: searchString;" class="col-sm-2 col-md-2 col-lg-2 col-xl-2 px-1 py-2">
+                    <button (click)="authorName = author.full_name_c; authorID = author.author_id; loadAuthor(author.full_name_l, author.full_name_c); keepOpen(); editMode = true" class="h-8 px-lg-3 w-h-fixed bg-sette">
+                      <p class="bg-sette">{{ author.full_name_c}} / {{ author.full_name_l }}</p>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,263 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-sette">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="../assets/img/logo.png" class="object-cover" alt="SETTE" width="250">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav navbar-expand-md mt-3">
+                <li class="nav-item pl-3 pb-2">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Од</mat-label>
+                        <input #from matInput [matDatepicker]="datepickerRef" name="datepicker" ngModel #dateCtrl="ngModel" required readonly />
+                        <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #datepickerRef></mat-datepicker>
+                        <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date</mat-error>
+                    </mat-form-field>
+                </li>
+                <li class="nav-item pl-3 pb-2">
+                    <mat-form-field appearance="outline">
+                        <mat-label>До</mat-label>
+                        <input #to matInput [matDatepicker]="datepickerRef1" name="datepicker1" ngModel #dateCtrl="ngModel" required readonly />
+                        <mat-datepicker-toggle [for]="datepickerRef1" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #datepickerRef1></mat-datepicker>
+                        <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date
+                        </mat-error>
+                    </mat-form-field>
+                </li>
+                <li class="nav-item pl-3 py-2 mx-2">
+                    <button (click)="filterByDate(from.value, to.value)" type="button" class="mr-2 px-2 py-1 text-sm font-medium leading-5 text-white transition-colors bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">
+                        Прикажи
+                    </button>
+                </li>
+                <li class="nav-item pl-3 py-2 mx-2">
+                    <button (click)="resetFilter(); from.value = ''; to.value = '';" type="button" class="mr-2 px-2 py-1 text-sm font-medium leading-5 text-white transition-colors bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">
+                        Освежи
+                    </button>
+                </li>
+                <li class="d-flex nav-item pl-3 py-1 mx-2">
+                    <input size="25" type="next" name="searchString" [(ngModel)]="searchString" class="form-control rounded" placeholder="Пребарај" style="min-width: 75px;" />
+                    <input size="25" matInput type="next" name="searchString" [(ngModel)]="searchString" (ngModelChange)="filterData()" class="form-control rounded" placeholder="Пребарувај тука" style="min-width: 75px;">
+
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-nav-right navbar-expand-md">
+                <li class="nav-item pl-3 py-1">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="/mediums">Медиум</a>
+                            <a href="/tags">Таг</a>
+                            <a href="/authors">Автор</a>
+                            <a href="/clients">Клиент</a>
+                            <a href="/users">Корисници</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item pl-3 py-1 mr-5">
+                    <button (click)=logOut() *ngIf="authService.isUserLoggedIn()" class="btn btn-danger mr-3" routerLink="/admin-login" title="Одјави се"><i class="fa fa-sign-out"
+                            style="font-size:22px"></i></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- glaven del -->
+
+<div class="row">
+    <div class="div-4 col-md-2" style="min-height: 700px">
+        <div class="form-group">
+            <select class="form-control mt-5 ml-2 mr-5" onchange="location = this.value;">
+                <option value="">Клип</option>
+                <option value="/tenders">Тендери</option>
+                <option value="/bankruptcies">Стечаи</option>
+                <option value="/sales" selected="selected">Продажби</option>
+                <option value="/notifications">Известувања</option>
+            </select>
+        </div>
+
+    </div>
+    <div class="col-md-10">
+        <h2 class="text-center font-bold mt-1 mb-1">Продажби</h2>
+        <hr class="mx-2">
+
+        <div class="d-flex mx-4 justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-start" *ngIf="showSalesForm == false">
+            <button class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue" (click)="checkSalesForm()"
+                color="primary">Новa Продажба</button>
+            <button class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-danger border border-transparent active:bg-danger hover:bg-danger focus:outline-none focus:shadow-outline-danger" (click)="deleteMultipleSales()" color="warn">Избриши Селектирани</button>
+        </div>
+
+        <div class="d-flex mx-4 justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-start" *ngIf="showSalesForm == true">
+            <button class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue" (click)="checkSalesForm()"
+                color="primary">Сокриј</button>
+            <button class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-danger border border-transparent active:bg-danger hover:bg-danger focus:outline-none focus:shadow-outline-danger" (click)="deleteMultipleSales()" color="warn">Избриши Селектирани</button>
+        </div>
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div *ngIf="showSalesForm == true">
+                    <form autocomplete="off" [formGroup]="salesForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mt-3">
+                                <mat-form-field appearance="outline" class="mb-2 w-100">
+                                    <mat-label>Доверител</mat-label>
+                                    <input formControlName="sales_creditor" matInput>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class=" mb-2 w-100">
+                                    <mat-label>Должник</mat-label>
+                                    <input formControlName="sales_debtor" matInput>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="mb-2 w-49">
+                                    <mat-label>Место на продажба</mat-label>
+                                    <input formControlName="sales_place" matInput>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="mb-2 ml-2 w-49">
+                                    <mat-label>Место на продажба (дополнително поле)</mat-label>
+                                    <input formControlName="sales_place" matInput>
+                                </mat-form-field>
+                                <mat-checkbox #eSale fromControlName="sales_esale" class="float-right" color="primary">
+                                    Е-Продажба</mat-checkbox>
+                                <mat-form-field appearance="outline" class="mb-2 w-100">
+                                    <mat-label>URL</mat-label>
+                                    <input formControlName="sales_url" matInput>
+                                </mat-form-field>
+                                <input hidden type="file" id="file" (change)="onFileSelected()" #fileInput>
+                                <mat-form-field appearance="outline" class="mb-2 w-75">
+                                    <mat-label>Слика</mat-label>
+                                    <input formControlName="sales_image" matInput>
+                                </mat-form-field>
+                                <button (click)="fileInput.click()" class="ml-4" mat-mini-fab color="primary">
+                                    <mat-icon>attach_file</mat-icon>
+                                </button>
+                                <mat-form-field appearance="outline" class="mb-2 w-100">
+                                    <mat-label>Тип на продажба</mat-label>
+                                    <mat-select class="mt-1" formControlName="sales_type" matInput>
+                                        <mat-option value="Недвижен имот">Недвижен имот</mat-option>
+                                        <mat-option value="Исправка">Исправка</mat-option>
+                                        <mat-option value="Подвижен имот">Подвижен имот</mat-option>
+                                        <mat-option value="Недвижен/Движен имот">Недвижен/Движен имот</mat-option>
+                                        <mat-option value="Градежно земјиште">Градежно земјиште</mat-option>
+                                        <mat-option value="Издавање под закуп">Издавање под закуп</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="w-49">
+                                    <mat-label>Датум на објава</mat-label>
+                                    <input matInput formControlName="sales_date" [matDatepicker]="datePublished">
+                                    <mat-datepicker-toggle matSuffix [for]="datePublished"></mat-datepicker-toggle>
+                                    <mat-datepicker #datePublished></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field appearance="outline" class="w-49 ml-2">
+                                    <mat-label>Датум на продажба</mat-label>
+                                    <input matInput formControlName="sales_expire" [matDatepicker]="dateExpire">
+                                    <mat-datepicker-toggle matSuffix [for]="dateExpire"></mat-datepicker-toggle>
+                                    <mat-datepicker #dateExpire></mat-datepicker>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="outline" style="width: 100%; margin-top: -1%;">
+                                    <mat-label>Опис</mat-label>
+                                    <textarea rows=26 formControlName="sales_description" matInput></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <button *ngIf="editMode == false;" class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+                            color="primary" (click)="addSale(eSale.checked)">Додади продажба</button>
+
+                        <div *ngIf="editMode == true">
+                            <button (click)="editMode = false; editSale(saleID);" class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+                                color="primary">Измени</button>
+                            <button (click)="editMode = false; resetForm();" class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+                                color="primary">Откажи Измени</button>
+                            <button (click)="editMode = false ; deleteSale(saleID)" class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-danger border border-transparent active:bg-danger hover:bg-danger focus:outline-none focus:shadow-outline-danger"
+                                color="warn">Избриши</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="white-space search-results infinite-1" id="tenderCards" infinite-scroll [infiniteScrollDistance]="2" [scrollWindow]="false" (scrolled)="onScrollUp()">
+                    <div *ngIf="filterMode == false">
+                        <div *ngFor="let sale of salesList | filterAll: searchString" class="container">
+                            <div class="card">
+                                <div class="card-header text-dark w-100">
+                                    <section>
+                                        <b>
+                                            <span>
+                                                {{transformDate(sale.sales_date)}}
+                                            </span>
+                                            <mat-icon class="icons-1" (click)="generatePDF('open', sale.sales_creditor, sale.sales_debtor, sale.sales_type, sale.sales_place, sale.sales_expire,
+                                            sale.sales_description);" title="Генерирај PDF документ">picture_as_pdf
+                                            </mat-icon>
+                                            <span class="float-right">
+                                                <mat-icon *ngIf="sale.sales_esale == true" class="icons-1"
+                                                    title="е-Продажба">inbox</mat-icon>
+                                                <mat-icon class="icons-1" title="Измени" (click)=" showSalesForm = true; editMode = true; saleID = sale.sales_id; loadSale(sale.sales_creditor,sale.sales_debtor,sale.sales_place,sale.sales_esale,sale.sales_url, sale.sales_image,sale.sales_type,sale.sales_date,sale.sales_expire,
+                                            sale.sales_description);">edit</mat-icon>
+                                                <mat-icon title="Избриши" (click)="deleteSale(sale.sales_id)"
+                                                    class="icons-1">delete</mat-icon>
+                                            </span>
+                                        </b>
+                                    </section>
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <mat-checkbox (click)="selectSales(sale.sales_id)" color="primary" matInput #salesCheck></mat-checkbox>
+                                        <b class="ml-1">{{ sale.sales_creditor }}</b>
+                                    </div>
+                                    <div class="card-text text-gray">
+                                        <span class="text-sm">{{ sale.sales_debtor }}</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div *ngIf="filterMode == true">
+                        <div *ngFor="let sale of salesList | filterAll: searchString" class="container">
+                            <div class="card">
+                                <div class="card-header text-dark w-100">
+                                    <section>
+                                        <b>
+                                            <span>
+                                                {{transformDate(sale.sales_date)}}
+                                            </span>
+                                            <mat-icon class="icons-1" (click)="generatePDF('open', sale.sales_creditor, sale.sales_debtor, sale.sales_type, sale.sales_place, sale.sales_expire,
+                                  sale.sales_description);" title="Генерирај PDF документ">picture_as_pdf</mat-icon>
+                                            <span class="float-right">
+                                                <mat-icon *ngIf="sale.sales_esale == true" class="icons-1"
+                                                    title="е-Продажба">inbox</mat-icon>
+                                                <mat-icon class="icons-1" title="Измени" (click)=" showSalesForm = true; editMode = true; saleID = sale.sales_id; loadSale(sale.sales_creditor,sale.sales_debtor,sale.sales_place,sale.sales_esale,sale.sales_url, sale.sales_image,sale.sales_type,sale.sales_date,sale.sales_expire,
+                                          sale.sales_description);">edit</mat-icon>
+                                                <mat-icon title="Избриши" (click)="deleteSale(sale.sales_id)"
+                                                    class="icons-1">delete</mat-icon>
+                                            </span>
+                                        </b>
+                                    </section>
+
+                                </div>
+                                <div class="card-body">
+                                    <div class="card-text">
+                                        <mat-checkbox (click)="selectSales(sale.sales_id)" color="primary" matInput #salesCheck></mat-checkbox>
+                                        <b class="ml-1">{{ sale.sales_creditor }}</b>
+                                    </div>
+                                    <div class="card-text text-gray">
+                                        <span class="text-sm">{{ sale.sales_debtor }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

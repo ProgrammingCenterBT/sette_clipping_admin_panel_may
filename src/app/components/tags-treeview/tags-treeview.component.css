@@ -1,0 +1,29 @@
+.accordion, .z-20, .py-4  {
+    background-color: rgb(150, 174, 190); 
+  }
+
+.list-group-item{
+    list-style: none;
+    font-size: 12px;
+    font-weight: bold;
+    background-color: #EBEDF2;
+  }
+.input.checkbox{
+    height: 20px;
+    width: 20px;
+    align-items: flex-start;
+    vertical-align:middle;
+    background-color:#EBEDF2;
+    }
+.div.child-list{
+    margin-top: 10px;
+    }
+.div-1.list-group-item {
+    background-color: rgb(36, 72, 150); 
+    color: white;
+   }
+    
+.div-2.list-group{
+  background-color: rgb(150, 174, 190); 
+    }
+

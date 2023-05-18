@@ -1,0 +1,8 @@
+.col-md-2, .accordion, .z-20, .py-4  {
+    background-color: rgb(222,222,221);
+  }
+
+.nav-link, .w-5 {
+    color: rgb(36, 72, 150);
+    font-weight: bold;
+}

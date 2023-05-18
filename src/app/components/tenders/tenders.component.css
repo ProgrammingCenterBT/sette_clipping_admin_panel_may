@@ -1,0 +1,156 @@
+.w-49 {
+    width: 49%;
+}
+
+.left-2 {
+    margin-left: 2%;
+}
+
+.display-7 {
+    font-size: 10px;
+    margin-left: 5px;
+}
+
+.icon-tenders {
+    cursor: pointer;
+    font-size: 1.5rem;
+    margin-left: 1px;
+    margin-top: .2rem;
+    height: 18px;
+    width: 18px;
+}
+
+.navbar-nav-right {
+    margin-left: auto;
+}
+
+
+/*Infinite scroll */
+
+.search-results {
+    height: 55rem;
+    overflow-y: scroll;
+    /* overflow-x: auto; */
+    margin: 0 2%;
+}
+
+
+/* .search-results{
+  width: 100%;
+  height: 350px;
+  overflow-y: scroll;
+  margin: 0 1%;
+} */
+
+.infinite-1::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgb(36, 72, 150);
+    box-shadow: inset 0 0 6px rgb(36, 72, 150);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+.infinite-1::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+.infinite-1::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgb(36, 72, 150);
+    box-shadow: inset 0 0 6px rgb(36, 72, 150);
+    background-color: rgb(36, 72, 150);
+}
+
+
+/*End of Infinite scroll */
+
+
+/*Tenders table */
+
+.white-space {
+    margin-top: .1rem;
+}
+
+.tender-header {
+    padding: .9rem .5rem;
+    margin-bottom: 0;
+    background-color: #88aee9;
+    /* border-top: 1px solid rgba(0,0,0,.125);
+  border-bottom:1px solid rgba(0,0,0,.125); */
+    border: 1px solid rgba(0, 0, 0, .125);
+}
+
+.tender-header section {
+    margin: -5px 0px;
+    padding: -5px 0px;
+}
+
+.tender-checkbox ::ng-deep .mat-checkbox-inner-container {
+    margin: .3rem;
+    width: 12px;
+    height: 12px;
+}
+
+.card {
+    border: 2px solid rgba(0, 0, 0, .125);
+}
+
+.tender-card {
+    padding-top: -2%;
+    background-color: #f5f5f5;
+    border: 0 2px 2px 2px solid rgba(0, 0, 0, .125);
+}
+
+.badge {
+    font-size: 10px;
+}
+
+.white-space {
+    margin-left: -2rem;
+}
+
+.card-spacing {
+    margin: 0.1rem 0 0.6rem 0;
+}
+
+.tender-fixed {
+    margin-top: -25px;
+    margin-left: -1px;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.tender-city span {
+    margin-left: 4px;
+}
+
+/*End of tenders table */
+
+.buttons {
+    margin-top: -.8rem;
+}
+
+.btn-tender {
+    padding: .3rem .4rem;
+    margin: 0 .1rem;
+    font-size: 10px;
+    background-color: rgb(36, 72, 150);
+    color: #fff;
+    transition-duration: 0.4s;
+}
+
+.show-tender-attach-delete {
+    margin-left: -.3rem;
+}
+
+.form-buttons {
+    margin-top: -0.5rem;
+}
+
+.send-mail {
+    margin-left: -1.2rem;
+}
+
+.mail-col {
+    margin-left: -3rem;
+}

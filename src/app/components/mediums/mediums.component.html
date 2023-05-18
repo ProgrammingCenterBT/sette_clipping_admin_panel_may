@@ -1,0 +1,114 @@
+<app-header></app-header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2">
+            <h1 class="text-center font-bold">Медиуми</h1>
+            <mat-form-field appearance="outline" class="w-responsive">
+                <mat-label>Пребарај</mat-label>
+                <!-- <input matInput type="next" name="searchString" [(ngModel)]="searchString"> -->
+                <input matInput type="next" name="searchString" [(ngModel)]="searchString" (ngModelChange)="filterData()">
+
+            </mat-form-field>
+
+            <button *ngIf="showMediumsForm == false" class="btn btn-primary m-2" (click)="openMediumsForm();"><span
+                    class="font-bold mr-1">+</span>Додади медиум</button>
+            <button *ngIf="showMediumsForm == true" class="btn btn-primary m-2" (click)="openMediumsForm();"><span
+                    class="font-bold mr-1">X</span>Сокриј</button>
+
+            <div *ngIf="showMediumsForm == true">
+                <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 float-sm-end float-md-start float-lg-start float-xl-start mt-2">
+                    <div class="flex-1 overflow-hidden bg-white rounded-lg shadow-xl">
+                        <div class="div-1 flex items-center justify-center p-6 sm:p-12">
+                            <div class="w-full">
+                                <mat-tab-group dynamicHeight>
+                                    <!-- Tab Dodadi medium Start-->
+                                    <mat-tab label="Додади медиум">
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">Медиумот постои
+                                        </div>
+                                        <form [formGroup]="mediumForm">
+                                            <h3 class="mt-4 mb-4 text-xl font-semibold text-gray-700">
+                                                ДОДАДЕТЕ МЕДИУМ
+                                            </h3>
+                                            <mat-form-field appearance="outline" class="mt-1 w-100">
+                                                <mat-label>Име на кирилица</mat-label>
+                                                <input formControlName="medium_name_cyrilic" matInput>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="w-100 mt-2 mb-1">
+                                                <mat-label>Име на латиница</mat-label>
+                                                <input formControlName="medium_name" matInput>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="w-100 mt-2 mb-1">
+                                                <mat-label>Избери тип на медиум</mat-label>
+                                                <mat-select class="mt-2 mb-n1" formControlName="medium_type_id" [(ngModel)]="selectedDropdown" (ngModelChange)="onChangeDropdown(selectedDropdown)" (selectionChange)="onChangeDropdown(selectedDropdown)">
+                                                    <mat-option *ngFor="let mediumType of mediumTypeList" [value]="mediumType.medium_type_id">
+                                                        {{mediumType.medium_type_name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </form>
+                                        <button class="btn btn-primary w-100  mt-3" mat-raised-button color="primary" *ngIf="editMode == false" (click)="addMediums()">Додади медиум</button>
+                                        <div class="text-center" *ngIf="editMode == true">
+                                            <button class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1" mat-raised-button color="primary" (click)="editMedium(mediumID); editMode = false">Измени</button>
+                                            <button class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-5 mt-3 mx-1" mat-raised-button color="primary" (click)="resetForm(); editMode = false">Откажи Измени</button>
+                                            <button class="btn btn-danger col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1" mat-raised-button color="warn" (click)="deleteMedium(mediumID);">Избриши</button>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Додади тип на медиум">
+                                        <h3 class="mt-5 mb-4 text-xl font-semibold text-gray-700">ДОДАДЕТЕ ТИП НА МЕДИУМ
+                                        </h3>
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">Типот на медиум постои
+                                        </div>
+                                        <form [formGroup]="mediumTypeForm" autocomplete="off">
+                                            <mat-form-field appearance="outline" class="mt-2 mb-5 w-100">
+                                                <mat-label>Име на тип на медиум</mat-label>
+                                                <input formControlName="medium_type_name" matInput>
+                                            </mat-form-field>
+                                        </form>
+                                        <button class="btn btn-primary w-100 mt-2" (click)="addMediumType()" mat-raised-button color="primary">Додади тип на медиум</button>
+                                    </mat-tab>
+                                    <mat-tab label="Избриши тип на медиум">
+                                        <h3 class="mt-5 mb-4 text-xl font-semibold text-gray-700">
+                                            ИЗБРИШЕТЕ ТИП НА МЕДИУМ
+                                        </h3>
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">Типот на медиум се користи</div>
+                                        <form [formGroup]="deleteMediumTypeForm" autocomplete="off">
+                                            <mat-form-field appearance="outline" class="mt-2 mb-5 w-100">
+                                                <mat-label>Тип на медиум</mat-label>
+                                                <mat-select class="mt-2 mb-n1" formControlName="medium_type_id" matInput [(ngModel)]="selectedDropdownDelete" (ngModelChange)="onChangeDropdownDelete(selectedDropdownDelete)" (selectionChange)="onChangeDropdownDelete(selectedDropdownDelete)">
+                                                    <div *ngFor="let mediumType of mediumTypeList;let indexOfelement=index;">
+                                                        <mat-option value="{{mediumType.medium_type_id}}">{{mediumType.medium_type_name}}
+                                                        </mat-option>
+                                                    </div>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </form>
+                                        <button class="btn btn-danger w-100 mt-2" (click)="deleteMediumType()" mat-raised-button color="warn">Избриши тип на медиум</button>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-results mt-2 mb-5 mr-1" id="infinite-1" infinite-scroll [scrollWindow]="false" (scrolled)="onScrollUp()">
+                <div *ngFor="let funMedium of funMediumList | filterAll: searchString; orderBy:{medium_name:desc}" class="col-sm-2 col-md-2 col-lg-2 col-xl-2 px-1 py-2">
+                    <button (click)="loadMedium(funMedium.medium_name, funMedium.medium_name_cyrilic, funMedium.medium_type_name,funMedium.medium_type_id); keepOpen(); editMode = true; mediumID = funMedium.medium_id; mediumName = funMedium.medium_name_cyrilic; mediumType = funMedium.medium_type_name; mediumType_ID = funMedium.medium_type_id;"
+                        class="h-12 px-lg-3 w-h-fixed bg-sette rounded" aria-label="btn-medium">
+                        <p class="bg-sette">{{ funMedium.medium_name_cyrilic }} / {{ funMedium.medium_name }}</p>
+                        <span class="mtype">{{ funMedium.medium_type_name }}</span>
+                    </button>
+                </div>
+                <!-- <div *ngFor="let medium of mediumsList?.slice()| filterAll: searchString;let indexOfelement=index;"
+                    class="col-sm-2 col-md-2 col-lg-2 col-xl-2 px-1 py-1">
+                    <button
+                        (click)="mediumID = medium.medium_id; loadMedium(medium,indexOfelement); keepOpen(); editMode = true; mediumName = medium.medium_name_cyrilic"
+                        class="h-12 px-lg-3 w-h-fixed bg-sette rounded">
+                        <p class="text-gray-700 card-text text-p">{{ medium.medium_name_cyrilic}} / {{ medium.medium_name}}</p>
+                        <span class="tctype">{{ medium.medium_type.medium_type_name}}</span>
+                    </button>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>

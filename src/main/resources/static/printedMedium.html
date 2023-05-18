@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Sette - Printed Medium</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <!-- Row 1 Start-->
+        <div class="row" style="margin-top: 5%">
+            <center> <img src="Sette_logo.png" alt="Sette Logo" style="display:block;margin:0 auto;width:300px;margin-top:-2%"> </center>
+        </div>
+        <!-- Row 1 END-->
+        <!-- Main Panel START -->
+        <div class="container">
+            <!-- Row 1 START -->
+            <div class="row">
+                <!-- Form START -->
+        <form action="/action_page.php">
+                <!-- Dropdown 1 - Select Medium START -->
+                <p>Медиум</p>
+            <div class="">
+                <select id="select" name="select" class="custom-select">
+                <option value="rabbit">Super Administrator</option>
+                <option value="duck">Administrator</option>
+                <option value="fish">Office Manager</option>
+                </select>
+            </div>
+                <!-- Dropdown 1 - Select Medium END -->
+                <!-- Datum 1 START -->
+                <div class="mb-3 mt-3">
+                    <label for="date" class="form-label">Датум</label>
+                    <input type="text" class="form-control" id="datum1" placeholder="Внеси датум" name="datum1">
+                </div>
+                <!-- Date 1 END -->
+                <!-- Date 2 START -->
+                <div class="mb-3 mt-3">
+                    <label for="date" class="form-label">Датум на објава</label>
+                    <input type="text" class="form-control" id="datum2" placeholder="Внеси датум на објава" name="datum2">
+                </div>
+                <!-- Date 2 END -->
+                <!-- Title START -->
+                <div class="mb-3 mt-3">
+                    <label for="title" class="form-label">Наслов</label>
+                    <input type="text" class="form-control" id="title" placeholder="Внеси наслов" name="title">
+                </div>
+                <!-- Title END -->
+                <!-- Text START -->
+                <div class="mb-3 mt-3">
+                    <label for="text" class="form-label">Текст</label>
+                    <textarea rows="5" class="form-control" id="text" placeholder="Внеси текст" name="text"></textarea>
+                </div>
+                <!-- Text END -->
+                <!-- Check1 START -->
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" id="importantInfo" name="importantInfo" value="importantInfo">
+                    <label class="form-check-label">Важна информација</label>
+                </div>
+                <!-- Check1 END -->
+                <!-- Path START -->
+                <div class="mb-3 mt-3">
+                    <label for="path" class="form-label">Патека</label>
+                    <input type="text" class="form-control" id="path" placeholder="Внеси патека" name="path">
+                </div>
+                <!-- Path END -->
+                <!-- Brief START -->
+                <div class="mb-3 mt-3">
+                    <label for="brief" class="form-label">Бриф</label>
+                    <textarea rows="3" class="form-control" id="brief" placeholder="Бриф" name="brief"></textarea>
+                </div>
+                <!-- Brief END -->
+                <!-- Page START -->
+                <div class="mb-3 mt-3">
+                    <label for="page" class="form-label">Страна</label>
+                    <input type="text" class="form-control" id="page" placeholder="" name="page" readonly>
+                </div>
+                <!-- Page END -->
+                <!-- Progress Bar START -->
+                <!-- Progress Bar END -->
+                <!-- Checkboxes Group START-->
+                <!-- Checkboxes Group END -->
+                <!-- Authors START -->
+                <div class="mb-3 mt-3">
+                    <label for="author" class="form-label">Автори</label>
+                    <input type="text" class="form-control" id="author" placeholder="Внеси автор(и)" name="authors">
+                </div>
+                <!-- Authors END -->
+                <!-- Keywords START -->
+                <div class="mb-3 mt-3">
+                    <label for="keywords" class="form-label">Клучни зборови</label>
+                    <input type="text" class="form-control" id="keywords" placeholder="Внеси клучни зборови" name="keywords">
+                </div>
+                <!-- Keywords END -->
+                <!-- Image Insert START -->
+                <strong><p>Слика</p></strong>
+                <div class="mb-3">
+                    <label for="formFile" class="form-label">Прикачи Слика</label>
+                    <input class="form-control" type="file" id="imageFile">
+                </div>
+                <!-- Image Insert END -->
+                
+                <button type="submit" class="btn btn-primary">Додади Медиум</button>
+                
+        </form>
+                <!-- Form END -->
+            </div>
+            <!-- Row 1 END -->
+        </div>
+        <!-- Main Panel END -->
+    </body>
+</html>

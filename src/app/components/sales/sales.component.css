@@ -1,0 +1,108 @@
+.commands{
+	display: inline-block;
+	background-color:#575757;
+	color:#69b2f7;
+	height: 24px;
+	font-size:12pt;
+	text-align: center;
+	vertical-align: middle;
+	padding-left: 10px;
+	padding-right: 10px;
+	margin-left: 3px;
+}
+.button:hover{
+	cursor: pointer;
+}
+
+.dropbtn {
+    background-color: #4CAF50;
+    color: white;
+    padding: 16px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  .dropdown-content a:hover {background-color: #f1f1f1}
+
+  .dropdown:hover .dropdown-content {
+    display: block;
+  }
+
+  .dropdown:hover .dropbtn {
+    background-color: teal;
+  }
+
+  .div-4.col-md-2, .accordion, .z-20, .py-4  {
+    background-color: rgb(150, 174, 190);
+  }
+
+  .z-10.py-4 {
+    background-color: #EBEDF2;
+  }
+
+    .w-49{
+      width: 49%;
+    }
+    .icons-1{
+      font-size: 1.4rem;
+      margin-left: 6px;
+      margin-right: 5px;
+      height: 15px;
+      width: 14px;
+      cursor: pointer;
+      color: #212529;
+    }
+
+    .navbar-nav-right{
+      margin-left: auto;
+    }
+
+
+/*Sales table START */
+.card{
+  margin: 1rem 0 -0.6rem -4rem;
+ }
+ .card-header{
+  background-color: #f5f5f5;
+  color: #fff;
+  height: 22px;
+ }
+ .card-header section{
+  margin-top: -.4rem;
+ }
+ .card-body{
+  padding: 0.25rem;
+ }
+ .card-text mat-checkbox::ng-deep .mat-checkbox-inner-container {
+  width: 11px;
+  height: 11px;
+ }
+.card-text b{
+  font-size: 12px;
+}
+.text-gray{
+  color: #9c9c9c;
+ }
+ /*Sales table END */

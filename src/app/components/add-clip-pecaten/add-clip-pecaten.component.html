@@ -1,0 +1,149 @@
+<!--Clip menu-->
+<!-- <div class="grid gap-6 mb-8" style="font-size: 10px;">
+    
+</div> -->
+
+
+<form autocomplete="off" [formGroup]="printedClipForm">
+    <div class="container">
+        <div class="row">
+            <label class="flex items-top pl-2">
+
+                <div class="col-md-6">
+                    <label class="flex items-center">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Избери медиум</mat-label>
+                            <mat-select (selectionChange)="switchForms($event.value)"
+                                [(value)]="modeselect" (input)="searchMedium()"
+                                formControlName="medium_id" matInput>
+                                <mat-option>Избери медиум</mat-option>
+                                <div *ngFor="let medium of mediumsList">
+                                    <mat-option value="{{medium.medium_id}}">{{
+                                        medium.medium_name_cyrilic }}</mat-option>
+                                </div>
+                            </mat-select>
+                        </mat-form-field>
+                    </label>
+                    <label class="flex items-center;">
+                        <mat-form-field appearance="outline" style="width: 100%; margin-right: 2%">
+                            <mat-label>Датум на објава</mat-label>
+                            <input matInput formControlName="created_at" [matDatepicker]="datePublished"
+                                [min]="minDate">
+                            <mat-datepicker-toggle matSuffix [for]="datePublished">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #datePublished></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Датум на клип</mat-label>
+                            <input matInput formControlName="date_of_clip" [min]="minDate"
+                                [matDatepicker]="dateClip">
+                            <mat-datepicker-toggle matSuffix [for]="dateClip"></mat-datepicker-toggle>
+                            <mat-datepicker #dateClip></mat-datepicker>
+                        </mat-form-field>
+                    </label>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Наслов</mat-label>
+                        <input formControlName="clip_title" matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Текст</mat-label>
+                        <textarea (keydown.control.q)="showKeywords()" #text (input)="generateBrief()"
+                            rows=18 formControlName="clip_text" matInput></textarea>
+                    </mat-form-field>
+                    <mat-checkbox [checked]="importantInformations" color="primary"
+                        #importantInformationPrinted fromControlName="important_information"
+                        style="margin-top: 2%; margin-left: 1%" matInput>Важна информација
+                    </mat-checkbox>
+                    <br>
+                    <button type="button" *ngIf="editMode == false && groupAddButton == false"
+                        mat-raised-button color="primary"
+                        (click)="addClipPrinted(importantInformationPrinted.checked);">Додади
+                        клип</button>
+                    <!--  <button *ngIf="groupAddButton == true " mat-raised-button color="primary"
+                        (click)="addClipWithSelectedGroup(importantInformation.checked)">Зачувај клип и
+                        додади во група</button>
+                    <div *ngIf="editMode == true">
+                        <button mat-raised-button color="primary"
+                            (click)="editClip(clipIDForm); translateMode = false; editMode = false;">Измени</button>
+                        <button style="margin-left: 2%" mat-raised-button color="primary"
+                            (click)="translateMode = false; editMode = false; resetForm()">Откажи
+                            Измени</button>
+                        <button style="margin-left: 2%" mat-raised-button color="warn"
+                            (click)="translateMode = false; editMode = false; deleteClip(clipIDForm)">Избриши</button>
+                    </div> -->
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Патека</mat-label>
+                            <input formControlName="clip_image_url" matInput>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Бриф</mat-label>
+                            <textarea maxlength="255" rows=4 formControlName="brief"
+                                matInput></textarea>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" style="width: 30%;">
+                            <mat-label>Страна</mat-label>
+                            <input formControlName="clip_pages" matInput>
+                        </mat-form-field>
+                        <mat-slide-toggle style="margin-left: 4%" color="primary"
+                            formControlName="clip_main_page">Насловна</mat-slide-toggle>
+                        <mat-slide-toggle style="margin-left: 4%" color="primary"
+                            formControlName="clip_image">Слика</mat-slide-toggle>
+                        <br>
+                        <mat-label>Површина</mat-label>
+                        <mat-slider formControlName="clip_area" thumbLabel style="margin-left: 2%"
+                            color="primary" min="0" max="12" step="1" value="3"></mat-slider>
+                        <br>
+                        <mat-radio-group formControlName="clip_research" color="primary"
+                            aria-label="Истражување">
+                            <mat-radio-button value="Сопствено">Сопствено</mat-radio-button>
+                            <mat-radio-button style="margin-left: 2%" value="Превземено">Превземено
+                            </mat-radio-button>
+                            <mat-radio-button style="margin-left: 2%" value="Пренесено">Пренесено
+                            </mat-radio-button>
+                        </mat-radio-group>
+                        <br>
+                        <mat-radio-group formControlName="clip_relevance" color="primary"
+                            aria-label="Релевантност">
+                            <mat-radio-button value="Спомнат клиент">Спомнат клиент</mat-radio-button>
+                            <mat-radio-button style="margin-left: 2%" value="Потесна област">Потесна
+                                област</mat-radio-button>
+                            <mat-radio-button style="margin-left: 2%" value="Поширока област">Поширока
+                                област</mat-radio-button>
+                        </mat-radio-group>
+                        <form [formGroup]="keywordForm">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Клучни зборови <span class="badge bg-primary">CTRL + Q</span>
+                                </mat-label>
+                                <mat-chip-list #chipList>
+                                    <div *ngFor="let keyword of gridkeywordList">
+                                        <div *ngIf="text.value.match(keyword.keyword)">
+                                            <mat-chip>
+                                                {{keyword.keyword}}
+                                                <button matChipRemove
+                                                    (click)="removeKeyword(keyword.keyword_id)">
+                                                    <mat-icon>cancel</mat-icon>
+                                                </button>
+                                            </mat-chip>
+                                        </div>
+                                    </div>
+                                    <textarea readonly rows=4 formControlName="keyword"
+                                        matInput></textarea>
+                                </mat-chip-list>
+                            </mat-form-field>
+                        </form>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <textarea readonly rows=3 matInput></textarea>
+                        </mat-form-field>
+                        <button title="Преведи" style="margin-top: 2%; margin-left: 92%" mat-mini-fab
+                            color="primary" aria-label="Example icon button with a menu icon">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+</form>

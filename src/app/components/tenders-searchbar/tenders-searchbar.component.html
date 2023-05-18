@@ -1,0 +1,53 @@
+<!-- <header>
+    <ul class="navbar-nav mt-3">
+
+        <-- <li class="nav-item mt-3 pl-2 dark:text-gray-400">
+      <input type="checkbox" class="text-skyblue-600 form-checkbox focus:border-skyblue-400 focus:outline-none focus:shadow-outline-skyblue" (change)="onCheckboxChange($event,'tenders')">
+      <span class="mr-2 ml-1"> Тендери </span>
+  </li>
+
+    <li class="nav-item mt-3 pl-2 dark:text-gray-400">
+      <input type="checkbox" class="text-skyblue-600 form-checkbox focus:border-skyblue-400 focus:outline-none focus:shadow-outline-skyblue" (change)="onCheckboxChange($event,'prilozi')">
+      <span class="mr-2 ml-1"> Прилози </span>
+    </li>
+    <li class="nav-item mt-3 pl-2 dark:text-gray-400">                                                                                        
+      <input type="checkbox" class="text-skyblue-600 form-checkbox focus:border-skyblue-400 focus:outline-none focus:shadow-outline-skyblue" (change)="onCheckboxChange($event,'ponistuvanja')">
+      <span class="mr-2 ml-1"> Поништувања </span>
+    </li> --
+
+        <li class="nav-item pl-3 pb-2 mx-2">
+            <mat-form-field appearance="outline">
+                <mat-label>Од</mat-label>
+                <input #from matInput [matDatepicker]="datepickerRef" name="datepicker" ngModel #dateCtrl="ngModel" required readonly />
+                <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+                <mat-datepicker #datepickerRef></mat-datepicker>
+                <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date</mat-error>
+            </mat-form-field>
+        </li>
+
+        <li class="nav-item pl-3 pb-2 mx-2">
+            <mat-form-field appearance="outline">
+                <mat-label>До</mat-label>
+                <input #to matInput [matDatepicker]="datepickerRef1" name="datepicker1" ngModel #dateCtrl="ngModel" required readonly />
+                <mat-datepicker-toggle [for]="datepickerRef1" matSuffix></mat-datepicker-toggle>
+                <mat-datepicker #datepickerRef1></mat-datepicker>
+                <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date</mat-error>
+            </mat-form-field>
+        </li>
+
+        <li class="nav-item pl-3 py-2 mx-2">
+            <button (click)="filterDates(from.value,to.value)" type="button" class="mr-2 px-2 py-1 text-sm font-medium leading-5 text-white transition-colors bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">Прикажи</button>
+        </li>
+
+
+        <li class="d-flex nav-item pl-3 py-1 mx-2">
+            <input autocomplete="off" type="text" id="title" name="title" [(ngModel)]="title" class="form-control rounded" placeholder="Пребарувај тука" style="min-width: 125px;" />
+        </li>
+    </ul>
+
+    <-- <br>
+    <div *ngIf="showTenders">
+      text
+    </div> --
+
+</header> -->

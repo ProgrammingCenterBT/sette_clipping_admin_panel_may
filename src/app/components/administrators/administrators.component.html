@@ -1,0 +1,214 @@
+<app-header></app-header>
+
+<div class="container-fluid">
+    <h1 class="text-center font-bold mt-5">Администратори</h1>
+
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2">
+            <div class="float-right">
+                <mat-form-field appearance="outline" class="w-full p-1">
+                    <mat-label>Пребарај</mat-label>
+                    <input matInput type="next" name="searchString" [(ngModel)]="searchString">
+                </mat-form-field>
+                <button *ngIf="showAdminForm == false" class="btn btn-primary mr-4" (click)="openAdminForm();"><span
+                        class="font-bold mr-1">+</span>Додади администратор</button>
+                <button *ngIf="showAdminForm == true" class="btn btn-primary mr-4" (click)="openAdminForm();"><span
+                        class="font-bold mr-1">X</span>Сокриј</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div *ngIf="showAdminForm == true">
+        <div class="row">
+            <div
+                class="col-sm-4 col-md-4 col-lg-4 col-xl-4 float-sm-end float-md-start float-lg-start float-xl-start mt-2">
+                <div class="flex-1 overflow-hidden bg-white rounded-lg shadow-xl">
+                    <div *ngIf="showAdminForm == true">
+
+                        <div class="div-1 flex items-center justify-center p-6 sm:p-12">
+                            <div class="w-full">
+                                <mat-tab-group dynamicHeight>
+                                    <!-- Tab Dodadi admin Start-->
+                                    <mat-tab label="Додади администратор">
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">
+                                            Администраторот постои
+                                        </div>
+                                        <form [formGroup]="adminForm">
+                                            <h3 class="mt-4 mb-4 text-xl font-semibold text-gray-700">
+                                                ДОДАДЕТЕ АДМИНИСТРАТОР
+                                            </h3>
+                                            <mat-form-field appearance="outline" class="mt-1 w-100">
+                                                <mat-label>Корисничко Име</mat-label>
+                                                <input formControlName="administrator_username" matInput>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="w-100 mt-2 mb-1">
+                                                <mat-label>Лозинка</mat-label>
+                                                <input type="password" formControlName="administrator_password"
+                                                    matInput>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="w-100 mt-2 mb-1">
+                                                <mat-label>Емаил</mat-label>
+                                                <input formControlName="administrator_email" matInput>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="w-100 mt-2 mb-1">
+                                                <mat-label>Избери Улога</mat-label>
+                                                <mat-select class="mt-2 mb-n1" formControlName="role_id"
+                                                    [(ngModel)]="selectedDropdown"
+                                                    (ngModelChange)="onChangeDropdown(selectedDropdown)"
+                                                    (selectionChange)="onChangeDropdown(selectedDropdown)">
+                                                    <mat-option *ngFor="let role of roleList" [value]="role.role_id">
+                                                        {{role.name_of_role}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </form>
+                                        <button class="btn btn-primary w-100 mt-3" *ngIf="editMode == false"
+                                            mat-raised-button color="primary" (click)="addAdministrator();">Додадете
+                                            администратор</button>
+                                        <div class="text-center" *ngIf="editMode == true">
+                                            <button
+                                                class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1"
+                                                mat-raised-button color="primary"
+                                                (click)="editMode = false; editAdministrator(adminID);">Измени
+                                            </button>
+                                            <button
+                                                class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-5  mt-3 mx-1"
+                                                mat-raised-button color="primary"
+                                                (click)="editMode = false; resetAdminForm(); ">Откажи
+                                                Измени</button>
+                                            <button
+                                                class="btn btn-danger col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1"
+                                                mat-raised-button color="warn"
+                                                (click)="deleteAdministrator(adminID, username);">Избриши</button>
+                                        </div>
+                                    </mat-tab>
+                                    <mat-tab label="Додади улога">
+                                        <h3 class="mt-5 mb-4 text-xl font-semibold text-gray-700">ДОДАДЕТЕ УЛОГА
+                                        </h3>
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">Улогата
+                                            постои
+                                        </div>
+                                        <form [formGroup]="roleForm" autocomplete="off">
+                                            <mat-form-field appearance="outline" class="mt-2 mb-5 w-100">
+                                                <mat-label>Име на улога</mat-label>
+                                                <input formControlName="name_of_role" matInput>
+                                            </mat-form-field>
+                                        </form>
+                                        <button class="btn btn-primary w-100 mt-3" *ngIf="editMode == false"
+                                            mat-raised-button color="primary" (click)="addRole();">Додади
+                                            улога</button>
+                                    </mat-tab>
+                                    <mat-tab label="Додади Roles& Rights">
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">
+                                            Roles&Rights постојат
+                                        </div>
+                                        <form [formGroup]="rolesAndRightsForm" autocomplete="off">
+                                            <h3 class="mt-4 mb-4 text-xl font-semibold text-gray-700">
+                                                ДОДАДЕТЕ Roles&Rights
+                                            </h3>
+                                            <h3 class="mt-5 mb-4 text-xl font-semibold text-gray-700">ПЕРМИСИИ
+                                            </h3>
+                                            <!-- <div class="col-sm-4 col-md-4 col-xl-4" *ngFor="let permission of permissionsList">
+                                            <mat-checkbox class="material-cbox" color="primary" [checked]="isChecked" formControlName="permission_id" value="permission.permission_id" matInput>{{permission.permissions_name}}</mat-checkbox>
+                                        </div> -->
+                                            <form [formGroup]="permissionForm">
+
+                                                <div class="col-sm-4 col-md-4 col-xl-4"
+                                                    *ngFor="let permission of permissionsList; let i = index">
+                                                    <mat-checkbox class="example-margin" (change)="onChange($event)"
+                                                        value="{{permission.permission_id}}">{{permission.permissions_name}}</mat-checkbox>
+                                                </div>
+                                            </form>
+                                            <hr class="my-2">
+                                            <mat-form-field appearance="outline" class="w-100 mt-2 mb-1">
+                                                <mat-label>Избери Улога</mat-label>
+                                                <mat-select class="mt-2 mb-n1" formControlName="role_id"
+                                                    [(ngModel)]="selectedDropdown"
+                                                    (ngModelChange)="onChangeDropdown(selectedDropdown)"
+                                                    (selectionChange)="onChangeDropdown(selectedDropdown)">
+                                                    <mat-option *ngFor="let role of roleList" [value]="role.role_id">
+                                                        {{role.name_of_role}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </form>
+
+                                        <button class="btn btn-primary w-100 mt-3" *ngIf="editMode == false"
+                                            mat-raised-button color="primary" (click)="addRolesAndRights();">Додади
+                                            Roles&Rights</button>
+                                        <div class="text-center" *ngIf="editMode == true">
+                                            <button
+                                                class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1"
+                                                mat-raised-button color="primary"
+                                                (click)="editMode = false; editRolesAndRights(rolesAndRightsID);">Измени
+                                                {{rolesAndRightsID}}</button>
+                                            <button
+                                                class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-5  mt-3 mx-1"
+                                                mat-raised-button color="primary"
+                                                (click)="editMode = false; resetRolesAndRightsForm(); ">Откажи
+                                                Измени</button>
+                                            <button
+                                                class="btn btn-danger col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1"
+                                                mat-raised-button color="warn"
+                                                (click)="deleteRolesAndRights(rolesAndRightsID);">Избриши</button>
+                                        </div>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <div *ngFor="let rolesAndRights of rolesAndRightsList?.slice().reverse()"
+                class="col-sm-2 col-md-2 col-lg-2 col-xl-2 px-1 py-2">
+                <button class="bg-sette rounded w-h-fixed"
+                    (click)=" editMode = true; rolesAndRightsID = rolesAndRights.roles_and_rights_id; loadRolesAndRights(rolesAndRights.roles_and_rights_status, rolesAndRights.permission.permission_id, rolesAndRights.role.role_id);">
+                    <div class="flex items-center">
+                        <mat-checkbox (click)="selectRolesAndRights(rolesAndRights.roles_and_rights_id)"
+                            [checked]="selectAll" color="primary"></mat-checkbox>
+                        <p class="bg-sette">{{rolesAndRights.permission.permissions_name}}, {{rolesAndRights.role.name_of_role}}</p>
+                    </div>
+                </button>
+                </div> -->
+            </div>
+
+
+            <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+                <div class="search-results mt-2 mb-5 mr-1" id="infinite-1" infinite-scroll [scrollWindow]="false"
+                    (scrolled)="onScrollDown($event)" (scrolledUp)="onScrollUp($event)">
+                    <div *ngFor="let administrator of administratorsList?.slice().reverse() | filterAll: searchString"
+                        class="col-sm-12 col-md-12 col-lg-12 col-xl-12 p-2 px-1 py-2 bottom-m">
+                        <button class="bg-sette rounded h-fixed btn-block"
+                            (click)=" editMode = true; adminID = administrator.admin_id; username = administrator.administrator_username; loadAdministrator(administrator.administrator_username, administrator.administrator_password, administrator.administrator_email, administrator.role_id);">
+                            <div class="flex items-center p-2">
+                                <mat-checkbox (click)="selectAdmins(administrator.admin_id)" [checked]="selectAll"
+                                    color="primary"></mat-checkbox>
+                                <p class="bg-sette ml-2">{{administrator.administrator_username }}</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div *ngIf="showAdminForm == false">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+            <div class="search-results mt-2 mb-5 mr-1" id="infinite-1" infinite-scroll [scrollWindow]="false"
+                (scrolled)="onScrollDown($event)" (scrolledUp)="onScrollUp($event)">
+                <div *ngFor="let administrator of administratorsList?.slice().reverse() | filterAll: searchString"
+                    class="col-sm-12 col-md-12 col-lg-12 col-xl-12 p-2 px-1 py-2 bottom-m">
+                    <button class="bg-sette rounded h-fixed btn-block"
+                        (click)=" editMode = true; adminID = administrator.admin_id; username = administrator.administrator_username; loadAdministrator(administrator.administrator_username, administrator.administrator_password, administrator.administrator_email, administrator.role_id);">
+                        <div class="flex items-center p-2">
+                            <mat-checkbox (click)="selectAdmins(administrator.admin_id)" [checked]="selectAll"
+                                color="primary"></mat-checkbox>
+                            <p class="bg-sette ml-2">{{administrator.administrator_username }}</p>
+                        </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>

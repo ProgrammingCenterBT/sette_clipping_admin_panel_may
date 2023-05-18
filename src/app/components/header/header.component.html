@@ -1,0 +1,31 @@
+<nav class="navbar navbar-expand-md bg-sette navbar-light">
+    <div class="container-fluid">
+        <img src="../assets/img/logo.png" class="" alt="SETTE" width="160" height="160">
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav navbar-expand-md">
+                <li class="nav-item my-2 mr-4">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle"><i class="fa fa-bars"></i></button>
+                        <div class="dropdown-content dropdown-menu-center">
+                            <a [style.display]="(authService.userLoggedInClips()!='true')? 'none' : ''" href="">Клип</a>
+                            <a [style.display]="(authService.userLoggedInMediums()!='true')? 'none' : ''" href="/mediums">Медиум</a>
+                            <a [style.display]="(authService.userLoggedInTags()!='true')? 'none' : ''" href="/tags">Таг</a>
+                            <a [style.display]="(authService.userLoggedInAuthors()!='true')? 'none' : ''" href="/authors">Автор</a>
+                            <a [style.display]="(authService.userLoggedInClients()!='true')? 'none' : ''" href="/clients">Клиент</a>
+                            <a [style.display]="(authService.userLoggedInAdministrators()!='true')? 'none' : ''" href="/users">Корисници</a>
+                            <a [style.display]="(authService.userLoggedInAdministrators()!='true')? 'none' : ''" href="/administrators">Администратори</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item my-2 mr-4">
+                    <button (click)=logOut() *ngIf="authService.isUserLoggedIn()" class="btn btn-danger bg-sette" routerLink="/admin-login" title="Одјави се">
+                          <i class="fa fa-sign-out" style="font-size:22px"></i></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>

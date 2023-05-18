@@ -1,0 +1,142 @@
+
+
+    @import url('http://fonts.googleapis.com/css?family=Lato');
+
+
+   img {
+    width: 20%;
+    margin-top: 6%;
+    margin-left: 38%;
+   }
+    
+    [grid]
+        {
+            margin-top: -4%;
+            display: grid;
+            grid-template-columns: repeat(20, 1fr);
+            grid-gap: 0px;
+            background-color: #fff;
+            color: #444;
+        }
+        
+    /* Card	 */
+    [card]
+        {
+            border-radius: 8px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.19),
+                        0 4px 24px rgba(0,0,0,0.23);
+        }
+    
+    [card~="back"]
+        {
+            background: linear-gradient(to bottom, #244896, #2350b1);
+            grid-column: 6 / span 9;
+            height: 320px;
+            margin-top: 192px;
+            text-align: left;
+        }
+        
+    [card~="front"]
+        {
+            position: relative;
+            grid-column: 10 / span 4;
+            height: 414px;
+            width: 100%;
+            margin-top: -368px;
+            background: #FFF;
+            text-align: center;
+        }
+    /* // Card */
+        
+    /* Text */
+    [card~="back"] p
+        {
+            margin-top: 2%;
+            margin-left: 6%;
+            color: #EFF3F6;
+        }
+        
+    .headline
+        {
+            font-size: 24px;
+            margin-bottom: 0;
+        }
+        
+    .txt-body
+        {
+            font-size: 16px;
+            margin-top: 0;
+        }
+        
+    .title 
+        { 
+            color: var(--cl-base); 
+            font-size: 20px;
+            margin-top: 32px;
+            margin-right: 60%;
+            text-transform: capitalize;
+            font-weight: bold;
+        }
+        
+        
+    .w-80{
+        width: 80%;
+    }
+        
+    .txt-b
+        {
+            position: relative;
+            top: 128px;
+        }
+    /* // Text */
+        
+        	
+    
+    /* Responsive */
+    @media only screen and (max-width: 1024px) and (max-width: 992px) and (max-width: 1220px)
+        {
+            [grid] { grid-template-columns: repeat(11, 1fr); }
+                
+            [card~=back]
+                {
+                    grid-column: 2 / span 9;
+                    margin-top: 128px;
+                }
+                
+            [card~=front]
+                {
+                    grid-column: 6 / span 4;
+                    margin-bottom: 128px;
+                }
+        }
+    
+    @media only screen and (max-width: 480px) 
+    {
+        [grid]
+            {
+                grid-template-columns: 1fr;
+                grid-gap: 0;
+            }
+            
+        [card~="back"]
+            {
+                height: 50vh;
+                border-radius: 0;
+                text-align: center;
+                grid-column: 1;
+                margin: 0;
+            }
+            
+        [card~="front"]
+            {
+                min-height: 320px;
+                margin: 0 32px;
+                margin-top: -64px;
+                margin-bottom: 16px;
+                text-align: center;
+                grid-column: 1;
+            }
+            
+        [card~="back"] p { margin: 0; }
+        .headline { margin-top: 16px !important; }
+    }    

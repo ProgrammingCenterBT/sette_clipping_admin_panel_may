@@ -1,0 +1,322 @@
+<nav class="navbar navbar-expand-md bg-sette pb-n1 navbar-light justify-content-start">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">
+      <img src="../assets/img/logo.png" class="object-cover" alt="SETTE" width="250">
+    </a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="collapsibleNavbar">
+      <ul class="navbar-nav mt-3">
+        <li class="nav-item pl-3 pb-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Од</mat-label>
+            <input #from matInput [matDatepicker]="datepickerRef" name="datepicker" ngModel #dateCtrl="ngModel" required
+              readonly />
+            <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #datepickerRef></mat-datepicker>
+            <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date</mat-error>
+          </mat-form-field>
+        </li>
+        <li class="nav-item pl-3 pb-2">
+          <mat-form-field appearance="outline">
+            <mat-label>До</mat-label>
+            <input #to matInput [matDatepicker]="datepickerRef1" name="datepicker1" ngModel #dateCtrl="ngModel" required
+              readonly />
+            <mat-datepicker-toggle [for]="datepickerRef1" matSuffix></mat-datepicker-toggle>
+            <mat-datepicker #datepickerRef1></mat-datepicker>
+            <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date
+            </mat-error>
+          </mat-form-field>
+        </li>
+        <li class="nav-item pl-3 py-2 mx-2">
+          <button (click)="filterByDate(from.value, to.value)" type="button"
+            class="mr-2 px-2 py-1 text-sm font-medium leading-5 text-white transition-colors bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">
+            Прикажи
+          </button>
+        </li>
+        <li class="nav-item pl-3 py-2 mx-2">
+          <button (click)="resetFilter(); from.value = ''; to.value = '';" type="button"
+            class="mr-2 px-2 py-1 text-sm font-medium leading-5 text-white transition-colors bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">
+            Освежи
+          </button>
+        </li>
+        <li class="d-flex nav-item pl-3 py-1 mx-2">
+          <!-- <input type="next" name="searchString" [(ngModel)]="searchString" class="form-control rounded" size="32" placeholder="Пребарувај тука" style="min-width: 125px;"> -->
+          <input matInput type="next" name="searchString" [(ngModel)]="searchString" (ngModelChange)="filterData()"
+            class="form-control rounded" size="32" placeholder="Пребарувај тука" style="min-width: 125px;">
+        </li>
+      </ul>
+      <ul class="navbar-nav navbar-nav-right navbar-expand-md">
+        <li class="nav-item pl-3 py-1">
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split">
+              <i class="fa fa-bars"></i>
+            </button>
+            <div class="dropdown-content">
+              <a href="/mediums">Медиум</a>
+              <a href="/tags">Таг</a>
+              <a href="/authors">Автор</a>
+              <a href="/clients">Клиент</a>
+              <a href="/users">Корисници</a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item pl-3 py-1 mr-5">
+          <button (click)=logOut() *ngIf="authService.isUserLoggedIn()" class="btn btn-danger bg-sette"
+            routerLink="/admin-login" title="Одјави се">
+            <i class="fa fa-sign-out" style="font-size:22px"></i></button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="row">
+  <div class="div-4 col-md-2" style="min-height: 700px">
+    <div class="form-group">
+      <select class="form-control mt-5 ml-2 mr-5" onchange="location = this.value;">
+        <option value="">Клип</option>
+        <option value="/tenders">Тендери</option>
+        <option value="/bankruptcies">Стечаи</option>
+        <option value="/sales">Продажби</option>
+        <option value="/notifications" selected="selected">Известувања</option>
+      </select>
+    </div>
+
+    <div *ngFor="let tag of tagsList" [ngStyle]="{ 'background-color': tag.tag_color }">
+      <div *ngIf="tag.parent_tag == true && tag.tags_category_name == 'Известувања'">
+        <mat-checkbox (change)="addTagToNotificationByCheck(tag.tag_id)" color="primary" style="margin-left: 4%;">
+          <span [dndDraggable]="draggable.data" (dndCopied)="onDraggableCopied($event,tag.tag_id)"
+            (dndMoved)="onDraggableMoved($event)" (dndCanceled)="onDragCanceled($event)"
+            (dndEnd)="onDragEnd($event)">{{tag.tag_name_c}}</span>
+        </mat-checkbox>
+        <mat-icon style="transform: rotate(90deg)" (click)="tagOpened(tag.tag_id);" style="cursor: pointer">
+          arrow_drop_down</mat-icon>
+      </div>
+      <div *ngFor="let childTag of tagsList">
+        <mat-checkbox (change)="addTagToNotificationByCheck(childTag.tag_id)"
+          *ngIf="openedTags.includes(childTag.parent_tag_id) && childTag.parent_tag_id == tag.tag_id" color="primary"
+          style="margin-left: 8%">
+          <span [dndDraggable]="draggable.data" (dndCopied)="onDraggableCopied($event,childTag.tag_id)"
+            (dndMoved)="onDraggableMoved($event)" (dndCanceled)="onDragCanceled($event)" (dndEnd)="onDragEnd($event)">
+            {{childTag.tag_name_c}} </span>
+        </mat-checkbox>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-10">
+    <h2 class="text-center font-bold mt-1 mb-1">Известувања</h2>
+    <hr class="mx-2">
+    <div
+      class="d-flex justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-start mx-4"
+      *ngIf="showNotificationsForm == false">
+      <button
+        class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+        (click)="checkNotificationsForm()" color="primary">Ново Известување</button>
+      <button
+        class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+        (click)="checkMailForm()" color="primary">Прати известување</button>
+      <button
+        class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-danger border border-transparent active:bg-danger hover:bg-danger focus:outline-none focus:shadow-outline-danger"
+        (click)="deleteMultipleNotifications()" color="warn">Избриши Селектирани</button>
+    </div>
+    <div
+      class="d-flex justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-start mx-4"
+      *ngIf="showNotificationsForm == true">
+      <button
+        class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+        (click)="checkNotificationsForm()" color="primary">Сокриј</button>
+      <button
+        class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+        (click)="checkMailForm()" color="primary">Прати известување</button>
+      <button
+        class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-danger border border-transparent active:bg-danger hover:bg-danger focus:outline-none focus:shadow-outline-danger"
+        (click)="deleteMultipleNotifications()" color="warn">Избриши Селектирани</button>
+    </div>
+
+
+    <div class="container-fluid">
+      <div class="row mt-4">
+        <div id="clientEmailForm" *ngIf="showMailForm == true">
+          <form [formGroup]="mailForm" class="mt-1">
+            <div class="col-md-12 mt-1">
+              <mat-form-field appearance="outline" class="mt-1 mb-1 w-100">
+                <mat-label>Име на клиент</mat-label>
+                <input formControlGroup="client_name" matInput>
+              </mat-form-field>
+              <mat-form-field appearance="outline" class="mt-1 mb-1 w-100">
+                <mat-label>Маил на клиент</mat-label>
+                <input formControlGroup="client_mail" matInput>
+              </mat-form-field>
+              <button
+                class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+                color="primary">Прати Маил</button>
+            </div>
+          </form>
+        </div>
+        <div *ngIf="showNotificationsForm == true">
+          <form autocomplete="off" class="mt-1" [formGroup]="notificationsForm">
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Медиум</mat-label>
+                  <input formControlName="notification_medium" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="mt-1  w-100">
+                  <mat-label>Договорен орган</mat-label>
+                  <input formControlName="notification_publisher" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="mt-1 w-100">
+                  <mat-label>Предмет на договор</mat-label>
+                  <input formControlName="notification_subject" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="mt-1 w-100">
+                  <mat-label>Носител</mat-label>
+                  <input formControlName="notification_holder" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="mt-1 w-100">
+                  <mat-label>URL</mat-label>
+                  <input formControlName="notification_url" matInput>
+                </mat-form-field>
+                <mat-form-field appearance="outline" class="mt-1 w-100">
+                  <mat-label>Датум на известување</mat-label>
+                  <input matInput formControlName="notification_date" [matDatepicker]="datePublished">
+                  <mat-datepicker-toggle matSuffix [for]="datePublished"></mat-datepicker-toggle>
+                  <mat-datepicker #datePublished></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6">
+                <mat-form-field appearance="outline" class="w-100 =">
+                  <mat-label>Опис</mat-label>
+                  <textarea rows=17 formControlName="notification_description" matInput></textarea>
+                </mat-form-field>
+              </div>
+
+            </div>
+
+            <div
+              class="d-flex justify-content-lg-start justify-content-md-center justify-content-sm-start justify-content-start my-3">
+              <button
+                class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+                *ngIf="editMode == false;" color="primary" (click)="addNotifications()">Додади известување</button>
+            </div>
+            <div
+              class="d-flex justify-content-lg-start justify-content-md-start justify-content-sm-start justify-content-start my-3"
+              *ngIf="editMode == true">
+              <button
+                class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+                (click)="editMode = false; editNotification(notificationID);" color="primary">Измени</button>
+              <button
+                class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-skyblue-600 border border-transparent active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+                (click)="editMode = false; resetForm();" color="primary">Откажи Измени</button>
+              <button
+                class="mr-1 px-2 py-1 text-sm font-medium text-white transition-colors duration-150 bg-danger border border-transparent active:bg-danger hover:bg-danger focus:outline-none focus:shadow-outline-danger"
+                (click)="editMode = false ; deleteNotification(notificationID)" color="warn">Избриши</button>
+            </div>
+          </form>
+        </div>
+
+
+        <div class="col-md-12">
+          <div class="white-space search-results infinite-1" id="tenderCards" infinite-scroll
+            [infiniteScrollDistance]="2" [infiniteScrollThrottle]="300" [scrollWindow]="false"
+            (scrolled)="onScrollUp()">
+            <div *ngIf="filterMode == false">
+
+              <div
+                *ngFor="let notification of notificationsList | filterAll: searchString,let indexOfelement=index;orderBy:{notification_date}"
+                class="container">
+                <div class="card">
+                  <div class="card-header text-dark w-100">
+                    <section dndDropzone (dndDrop)="onDrop($event, notification.notification_id)">
+                      <b>
+                        <span>
+                          {{transformDate(notification.notification_date)}}
+                        </span>
+                        <mat-icon class="icons-1"
+                          (click)="generatePDF('open', notification.notification_medium, notification.notification_publisher, notification.notification_subject, notification.notification_holder, transformDate(notification.notification_date), notification.notification_description);"
+                          title="Генерирај PDF документ">picture_as_pdf</mat-icon>
+                        <span class="float-right">
+                          <mat-icon class="icons-1"
+                            (click)=" showNotificationsForm = true; editMode = true; notificationID = notification.notification_id;loadNotification(notification.notification_medium, notification.notification_publisher, notification.notification_subject, notification.notification_holder, notification.notification_url,notification.notification_description, notification.notification_date); "
+                            title="Измени">edit</mat-icon>
+                          <mat-icon class="icons-1" (click)="deleteNotification(notification.notification_id)"
+                            title="Избриши">delete</mat-icon>
+                        </span>
+                      </b>
+                    </section>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-text">
+                      <div *ngFor="let notificationTags of notificationTagsList">
+                        <div *ngIf="notification.notification_id == notificationTags.notification_id">
+                          <div *ngFor="let tags of tagsList">
+                            <div *ngIf="tags.tag_id == notificationTags.tag_id">
+                              <span class="badge" style="color: black; cursor: pointer;"
+                                (click)="removeTagFromNotification(notificationTags.notification_tag_id)"
+                                [ngStyle]="{ 'background-color': tags.tag_color }">{{tags.tag_name_c}}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-text">
+                      <mat-checkbox
+                        (click)="selectNotification(notification.notification_id, notificationCheck.checked)"
+                        color="primary" matInput #notificationCheck></mat-checkbox>
+                      <b class="ml-1">{{ notification.notification_subject }}</b>
+                    </div>
+                    <div class="card-text text-gray">
+                      <span class="text-sm">
+                        {{ notification.notification_publisher }}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div *ngIf="filterMode == true">
+              <div *ngFor="let notification of notificationsList | filterAll: searchString" class="container">
+                <div class="card">
+                  <div class="card-header text-dark w-100">
+                    <section>
+                      <b>
+                        <span>
+                          {{transformDate(notification.notification_date)}}
+                        </span>
+                        <mat-icon class="icons-1 mr-3"
+                          (click)="generatePDF('open', notification.notification_medium, notification.notification_publisher, notification.notification_subject, notification.notification_holder, transformDate(notification.notification_date), notification.notification_description);"
+                          title="Генерирај PDF документ">picture_as_pdf</mat-icon>
+                        <span class="float-right">
+                          <mat-icon class="icons-1 ml-3 mr-3"
+                            (click)=" showNotificationsForm = true; editMode = true; notificationID = notification.notification_id;loadNotification(notification.notification_medium, notification.notification_publisher, notification.notification_subject, notification.notification_holder, notification.notification_url,notification.notification_description, notification.notification_date); "
+                            title="Измени">edit</mat-icon>
+                          <mat-icon class="icons-1" (click)="deleteNotification(notification.notification_id)"
+                            title="Избриши">delete</mat-icon>
+                        </span>
+                      </b>
+                    </section>
+                  </div>
+                  <div class="card-body">
+                    <div class="card-text">
+                      <mat-checkbox
+                        (click)="selectNotification(notification.notification_id, notificationCheck.checked)"
+                        color="primary" matInput #notificationCheck></mat-checkbox>
+                      <b class="ml-1">{{ notification.notification_subject }}</b>
+                    </div>
+
+                    <div class="card-text text-gray">
+                      <span class="text-sm">{{ notification.notification_publisher }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

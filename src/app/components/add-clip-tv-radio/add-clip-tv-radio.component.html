@@ -1,0 +1,101 @@
+<!-- <div class="grid gap-6 mb-8" style="font-size: 10px;">
+</div> -->
+
+
+<form autocomplete="off" [formGroup]="tvRadioClipForm">
+    <div class="container">
+        <div class="row">
+            <label class="flex items-top pl-2">
+
+                <div class="col-md-6">
+                    <label class="flex items-center">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Избери медиум</mat-label>
+                            <mat-select (selectionChange)="switchForms($event.value)"
+                                [(value)]="modeselect" (input)="searchMedium()"
+                                formControlName="medium_id" matInput>
+                                <mat-option>Избери медиум</mat-option>
+                                <div *ngFor="let medium of mediumsList">
+                                    <mat-option value="{{medium.medium_id}}">{{
+                                        medium.medium_name_cyrilic }}</mat-option>
+                                </div>
+                            </mat-select>
+                        </mat-form-field>
+                    </label>
+                    <label class="flex items-center;">
+                        <mat-form-field appearance="outline" style="width: 100%; margin-right: 2%">
+                            <mat-label>Датум на објава</mat-label>
+                            <input matInput formControlName="created_at" [matDatepicker]="datePublished" [min]="minDate">
+                            <mat-datepicker-toggle matSuffix [for]="datePublished">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #datePublished></mat-datepicker>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Датум на клип</mat-label>
+                            <input matInput formControlName="date_of_clip" [min]="minDate" [matDatepicker]="dateClip">
+                            <mat-datepicker-toggle matSuffix [for]="dateClip"></mat-datepicker-toggle>
+                            <mat-datepicker #dateClip></mat-datepicker>
+                        </mat-form-field>
+                    </label>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Наслов</mat-label>
+                        <input formControlName="clip_title" matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Текст</mat-label>
+                        <textarea rows=5 formControlName="clip_text" matInput></textarea>
+                    </mat-form-field>
+                    <div class="flex items-center">
+                        <div class="form-check">
+                            <mat-checkbox [checked]="importantInformations" color="primary" #importantInformationTv fromControlName="important_information"
+                                style="margin-left:-10%" matInput>Важна информација</mat-checkbox>
+                        </div>
+
+                    </div>
+                    <button type="button" (click)="addClipTv(importantInformationTv.checked)" *ngIf="editMode == false && translateMode == false" mat-raised-button
+                        color="primary">Додади клип</button>
+                    <!--  <div *ngIf="editMode == true">
+                        <button mat-raised-button color="primary"
+                            (click)="editMode = false; editClip(clipIDForm)">Измени</button>
+                        <button style="margin-left: 2%" mat-raised-button color="primary"
+                            (click)="editMode = false; resetForm()">Откажи Измени</button>
+                        <button style="margin-left: 2%" mat-raised-button color="warn"
+                            (click)="editMode = false; deleteClip(clipIDForm)">Избриши</button>
+                    </div> -->
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Патека</mat-label>
+                            <input formControlName="video_url" matInput>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Бриф</mat-label>
+                            <textarea maxlength="255" rows=5 formControlName="brief"
+                                matInput></textarea>
+                        </mat-form-field>
+                        <!--                   <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Избери автори</mat-label>
+                            <mat-select multiple (input)="searchAuthor()" formControlName="author_id"
+                                matInput>
+                                <div *ngFor="let author of authorList">
+                                    <mat-option value="{{author.author_id}}">{{ author.full_name_c }}
+                                    </mat-option>
+                                </div>
+                            </mat-select>
+                        </mat-form-field> -->
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <textarea readonly rows=2 matInput></textarea>
+                        </mat-form-field>
+                        <button title="Преведи" style="margin-top: 2%; margin-left: 92%" mat-mini-fab
+                            color="primary" aria-label="Example icon button with a menu icon">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </label>
+        </div>
+    </div>
+</form>

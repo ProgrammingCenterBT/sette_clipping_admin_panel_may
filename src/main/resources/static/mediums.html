@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Sette - Mediums</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+                <!-- Row 1 Start-->
+        <div class="row" style="margin-top: 5%">
+            <center> <img src="Sette_logo.png" alt="Sette Logo" style="display:block;margin:0 auto;width:300px;margin-top:-2%"> </center>
+        </div>
+        <!-- Row 1 END-->
+        <!-- Main Panel START -->
+        <div class="container">
+            <!-- Row 1 START -->
+            <div class="row">
+                <!-- Form START -->
+        <form action="/action_page.php">
+                <!-- Cyrilic Name START -->
+                <div class="mb-3 mt-3">
+                    <label for="cyrilicname" class="form-label">Име на кирилица</label>
+                    <input type="text" class="form-control" id="cyrilicname" placeholder="Внеси име на кирилица" name="cyrilicname">
+                </div>
+                <!-- Cyrilic Name END -->
+                <!-- Latin Name START -->
+                <div class="mb-3 mt-3">
+                    <label for="latinname" class="form-label">Име на латиница</label>
+                    <input type="text" class="form-control" id="latinname" placeholder="Внеси име на латиница" name="latinname">
+                </div>
+                <!-- Latin Name END -->
+                <!-- Dropdown 1 - Select Medium Type START -->
+                <p>Тип</p>
+            <div class="">
+                <select id="select" name="select" class="custom-select">
+                <option value="pecaten">Печатен</option>
+                <option value="veb">Веб</option>
+                <option value="tv">ТВ</option>
+                <option value="radio">Радио</option>
+                <option value="miks">Микс</option>
+                <option value="tender">Тендер</option>
+                <option value="socijalni">Социјални</option>
+                <option value="saem">Саем</option>
+                <option value="ekonomskopoliticki">Економско-политички</option>
+                <option value="analitika">Аналитика</option>
+                <option value="berza">Берза</option>
+                </select>
+            </div>
+                <!-- Dropdown 1 - Select Medium Type END -->
+                
+                <button type="submit" class="btn btn-primary">Додади Медиум</button>
+                
+        </form>
+    </body>
+</html>

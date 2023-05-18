@@ -1,0 +1,933 @@
+<nav class="navbar navbar-expand-sm navbar-light bg-sette">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img src="../assets/img/logo.png" class="object-cover" alt="SETTE" width="250">
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav mt-3">
+                <li class="nav-item pl-2 ml-1 pt-2">
+                    <!-- <mat-checkbox (change)="addToFilterMedium(showAllClips.id)" #showAllClips id="Сите" color="primary">Сите</mat-checkbox> -->
+                    <mat-checkbox id="SearchAll" name="SearchAll" [(ngModel)]="SearchAll" color="primary">Сите</mat-checkbox>
+                </li>
+                <li class="nav-item pl-2 ml-1 pt-2">
+                    <mat-checkbox (change)="addToFilterMedium(showTvClips.id)" #showTvClips id="ТВ" color="primary">Телевизија </mat-checkbox>
+                </li>
+                <li class="nav-item pl-2 ml-1 pt-2">
+                    <mat-checkbox (change)="addToFilterMedium(showRadioClips.id)" #showRadioClips id="Радио" color="primary">Радио </mat-checkbox>
+                </li>
+                <li class="nav-item pl-2 ml-1 pt-2">
+                    <!-- <mat-checkbox (change)="addToFilterMedium(showWebClips.id)" #showWebClips id="Веб"  color="primary">Веб </mat-checkbox> -->
+                    <mat-checkbox id="SearchWeb" name="SearchWeb" [(ngModel)]="SearchWeb" color="primary" (change)="filteredClips()">Веб
+                    </mat-checkbox>
+
+                </li>
+                <li class="nav-item pl-2 ml-1 pt-2">
+                    <!-- <mat-checkbox (change)="addToFilterMedium(showPrintedClips.id)" #showPrintedClips id="Печатен"  color="primary">Печатени </mat-checkbox> -->
+                    <mat-checkbox id="SearchPrint" name="SearchPrint" [(ngModel)]="SearchPrint" color="primary">Печатени
+                    </mat-checkbox>
+                    
+                    
+
+                </li>
+                <li class="nav-item pl-2 ml-1 pt-2">
+                    <mat-checkbox (change)="addToFilterMedium(showSocialClips.id)" #showSocialClips id="Социјални Мрежи" color="primary">Соц.медиуми </mat-checkbox>
+                </li>
+                <li class="nav-item pl-3 pb-2">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Од</mat-label>
+                        <input #from matInput [matDatepicker]="datepickerRef" name="datepicker" ngModel #dateCtrl="ngModel" required readonly />
+                        <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #datepickerRef></mat-datepicker>
+                        <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date</mat-error>
+                    </mat-form-field>
+                </li>
+
+                <li class="nav-item pl-3 pb-2">
+                    <mat-form-field appearance="outline">
+                        <mat-label>До</mat-label>
+                        <input #to matInput [matDatepicker]="datepickerRef1" name="datepicker1" ngModel #dateCtrl="ngModel" required readonly />
+                        <mat-datepicker-toggle [for]="datepickerRef1" matSuffix></mat-datepicker-toggle>
+                        <mat-datepicker #datepickerRef1></mat-datepicker>
+                        <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date
+                        </mat-error>
+                    </mat-form-field>
+                </li>
+                <li class="nav-item pl-3 py-2">
+                    <button (click)="filterByDate(from.value, to.value)" style="margin-left: 1%; " type="button" class="flex items-center justify-between mr-1 px-2 py-1 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">
+                        Прикажи
+                    </button>
+                </li>
+                <li class="nav-item pl-3 pt-2">
+                    <input size="12" type="next" id="SearchString" name="SearchString" [(ngModel)]="SearchString" class="form-control rounded" placeholder="Пребарај" style="min-width: 75px;" />
+                </li>
+            </ul>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item pl-3 my-2 pt-2">
+                    <div class="dropdown">
+                        <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split  ml-1 mr-2">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <div *ngIf="allowMediums == 'true' ">
+                                <a href="/mediums">Медиум</a>
+                            </div>
+                            <a href="/tags">Таг</a>
+                            <a href="/authors">Автор</a>
+                            <a href="/clients">Клиент</a>
+                            <a href="/users">Корисници</a>
+                            <a href="/administrators">Администратори</a>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item pl-3 pt-2 my-2 mr-2">
+                    <button (click)=logOut() *ngIf="authService.isUserLoggedIn()" class="btn btn-danger mr-3" routerLink="/admin-login" title="Одјави се"><i class="fa fa-sign-out"
+                            style="font-size:22px"></i></button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+<div class="row">
+    <div class="div-4 col-md-2" style="min-height: 700px; background-color: #d7dce0;">
+        <div class="form-group">
+            <select class="form-control mt-5 ml-2 mr-5" onchange="location = this.value;">
+                <option value="" selected="selected">Клип</option>
+                <option value="/tenders">Тендери</option>
+                <option value="/bankruptcies">Стечаи</option>
+                <option value="/sales">Продажби</option>
+                <option value="/notifications">Известувања</option>
+            </select>
+        </div>
+
+        <!--  <app-tags-treeview></app-tags-treeview> -->
+        <div *ngFor="let tag of tagsList" [ngStyle]="{ 'background-color': tag.tag_color }">
+            <div *ngIf="tag.parent_tag == true && tag.tags_category_name.toLowerCase() == ('Клип').toLowerCase()">
+                <mat-checkbox (change)="addTagToClipByCheck(tag.tag_id)" color="primary" style="margin-left: 4%;">
+                    <span [dndDraggable]="draggable.data" (dndCopied)="onDraggableCopied($event,tag.tag_id); onDraggableCopiedForm($event,tag.tag_id)" (dndMoved)="onDraggableMoved($event)" (dndCanceled)="onDragCanceled($event)" (dndEnd)="onDragEnd($event)">{{tag.tag_name_c}}</span>
+                </mat-checkbox>
+                <mat-icon style="transform: rotate(90deg)" (click)="tagOpened(tag.tag_id);" style="cursor: pointer">
+                    arrow_drop_down</mat-icon>
+            </div>
+            <div *ngFor="let childTag of tagsList">
+                <mat-checkbox (change)="addTagToClipByCheck(childTag.tag_id)" *ngIf="openedTags.includes(childTag.parent_tag_id) && childTag.parent_tag_id == tag.tag_id" color="primary" style="margin-left: 8%">
+                    <span [dndDraggable]="draggable.data" (dndCopied)="onDraggableCopied($event,childTag.tag_id); onDraggableCopiedForm($event,childTag.tag_id)" (dndMoved)="onDraggableMoved($event)" (dndCanceled)="onDragCanceled($event)" (dndEnd)="onDragEnd($event)"> {{childTag.tag_name_c}} </span>
+                </mat-checkbox>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-md-10">
+        <!--Top filters-->
+        <div class="container px-10 mx-auto grid">
+            <button (click)="toggleTag()"><i class="fa fa-cog float-right" style="font-size: large; margin: 1%;"
+                    aria-hidden="true"></i></button>
+            <div *ngIf="showMe">
+                <div class="flex items-center justify-between p-1 mb-2 text-sm font-semibold  rounded-lg shadow-md focus:outline-none focus:shadow-outline-skyblue" style="cursor: pointer;">
+                    <div class="flex items-center">
+                        <label class="flex items-center dark:text-skyblue-400 pl-2" style="margin-left: 10%;">
+                            <span style="margin-right: 5%; margin-left: -40%">Од</span>
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="datepickerRef" name="datepicker" ngModel
+                                    #dateCtrl="ngModel" required readonly />
+                                <mat-datepicker-toggle [for]="datepickerRef" matSuffix></mat-datepicker-toggle>
+                                <mat-datepicker #datepickerRef></mat-datepicker>
+                                <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+
+                        <ngx-mat-timepicker-field [(ngModel)]="timeFrom" color="warn" [format]="24">
+                        </ngx-mat-timepicker-field>
+                        <label class="flex items-center pl-2" style="margin-left: 2%;">
+                            <span style="margin-right: 5%; margin-left: -20%">До</span>
+                            <mat-form-field>
+                                <input matInput [matDatepicker]="datepickerRef1" name="datepicker1" ngModel
+                                    #dateCtrl="ngModel" required readonly />
+                                <mat-datepicker-toggle [for]="datepickerRef1" matSuffix></mat-datepicker-toggle>
+                                <mat-datepicker #datepickerRef1></mat-datepicker>
+                                <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose a Date
+                                </mat-error>
+                            </mat-form-field>
+                        </label>
+                        <ngx-mat-timepicker-field color="warn" [format]="24"></ngx-mat-timepicker-field>
+
+                        <button (click)="checkTime(timeFrom)" style="font-size: 12px; margin-right: 1%; white-space: nowrap; text-align: center;" class="flex items-center justify-between w-full px-2 py-1 text-sm small leading-5 text-skyblue-100 transition-colors duration-150 bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">
+                            Подреди </button>
+                        <button style="font-size: 12px; margin-right: 1%; white-space: nowrap; text-align: center;" class="flex items-center justify-between px-2 py-1 text-sm small text-skyblue-100 transition-colors duration-150 bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">
+                            Пребарувај Клучни</button>
+                        <button (click)="showClipsWithoutTags()" style="font-size: 12px; white-space: nowrap; text-align: center;" class="flex items-center justify-betwee px-2 py-1 text-sm font-medium leading-5 text-skyblue-100 transition-colors duration-150 bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue">
+                            Прикажи бeз таг</button>
+                        <button style="font-size: 12px; white-space: nowrap; text-align: center; margin-left: 1%" class="flex items-center justify-betwee px-2 py-1 text-sm font-medium leading-5 text-skyblue-100 transition-colors duration-150 bg-skyblue-600 border border-transparent rounded-lg active:bg-skyblue-600 hover:bg-skyblue-700 focus:outline-none focus:shadow-outline-skyblue"
+                            (click)="deleteClipsWithoutTag()">Избриши клипови без таг</button>
+                    </div>
+                </div>
+            </div>
+            <!--/Top filters-->
+            <div class="d-block">
+                <button *ngIf="showClipForm == false" class="btn btn-primary my-2" mat-raised-button color="primary" (click)="openClipForm();">Нов Клип</button>
+                <button *ngIf="showClipForm == true" class="btn btn-primary my-2" mat-raised-button color="primary" (click)="openClipForm();">Сокриј</button>
+            </div>
+
+            <!-- WEB here-->
+            <!-- <div *ngIf="formSwitch == 'webForm' && showClipForm == true">
+                <app-add-clip-container [objPosition]="objPosition"></app-add-clip-container>
+            </div> -->
+            <!-- WEB FORM START-->
+            <form [formGroup]="webClipForm" autocomplete="off" *ngIf="formSwitch == 'webForm' && showClipForm == true">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="alert alert-warning" [hidden]="alert_warning==false">Пополнете го правилно формуларот</div>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" class="w-100 mt-3 mb-2">
+                                <mat-label>Избери медиум</mat-label>
+                                <mat-select (selectionChange)="switchForms($event.value)" [(value)]="modeselect" (input)="searchMedium()" formControlName="medium_id" matInput>
+                                    <mat-option>Избери медиум</mat-option>
+                                    <div *ngFor="let medium of mediumsList">
+                                        <mat-option value="{{medium.medium_id}}">{{medium.medium_name_cyrilic }}
+                                        </mat-option>
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="w-49 mr-1 mb-2">
+                                <mat-label>Датум на објава</mat-label>
+                                <input matInput formControlName="created_at" [matDatepicker]="datePublished" [min]="minDate">
+                                <mat-datepicker-toggle matSuffix [for]="datePublished">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #datePublished></mat-datepicker>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="w-49 mb-2">
+                                <mat-label>Датум на клип</mat-label>
+                                <input matInput formControlName="date_of_clip" [min]="minDate" [matDatepicker]="dateClip">
+                                <mat-datepicker-toggle matSuffix [for]="dateClip"></mat-datepicker-toggle>
+                                <mat-datepicker #dateClip></mat-datepicker>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="w-100 mb-2">
+                                <mat-label>Наслов</mat-label>
+                                <input formControlName="clip_title" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field *ngIf="translateMode == true" appearance="outline" class="w-100 mb-2">
+                                <mat-label>Наслов на англиски</mat-label>
+                                <input formControlName="clip_title_english" matInput>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="w-100 mb-2">
+                                <mat-label>Текст</mat-label>
+                                <textarea (input)="generateBrief()" rows=5 formControlName="clip_text" matInput></textarea>
+                            </mat-form-field>
+
+                            <mat-form-field appearance="outline" class="w-100 mb-2">
+                                <mat-label>Слика</mat-label>
+                                <input formControlName="clip_image_url" matInput>
+                            </mat-form-field>
+
+                            <mat-checkbox [checked]="importantInformations" color="primary" #importantInformation fromControlName="important_information" matInput>Важна информација</mat-checkbox>
+                        </div>
+
+                        <div class="col-md-6">
+                            <mat-form-field appearance="outline" class="mt-3 mb-2 w-100">
+                                <mat-label>Бриф</mat-label>
+                                <textarea maxlength="255" rows=5 formControlName="brief" matInput></textarea>
+                            </mat-form-field>
+                            <mat-form-field *ngIf="translateMode == true" appearance="outline" class="w-100 mb-2">
+                                <mat-label>Бриф на англиски</mat-label>
+                                <textarea rows=3 formControlName="brief_english" matInput></textarea>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100 mb-2">
+                                <mat-label>Избери автори</mat-label>
+                                <mat-select multiple (input)="searchAuthor()" formControlName="author_id" matInput>
+                                    <div *ngFor="let author of authorList">
+                                        <mat-option value="{{author.author_id}}">{{ author.full_name_c }}</mat-option>
+                                    </div>
+                                </mat-select>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="w-100 mb-2">
+                                <mat-label>URL</mat-label>
+                                <input formControlName="clip_url" matInput>
+                            </mat-form-field>
+
+                            <section dndDropzone (dndDrop)="onDropForm($event)">
+                                <div class="container" style="background-color: white; border:1px solid black;; height: 4rem; margin-top: 3%">
+                                    <mat-chip-list #chipList>
+                                        <div *ngFor="let tagID of tagsToAddToForm" style="margin-left: 1%; display: inline-block">
+                                            <div *ngFor="let tags of tagsList">
+                                                <div *ngIf="tags.tag_id == tagID">
+                                                    <mat-chip [ngStyle]="{ 'background-color': tags.tag_color }" style="width: autp; height: auto">
+                                                        {{tags.tag_name_c}}
+                                                        <button matChipRemove (click)="removeTagFromForm(tags.tag_id)">
+                                                            <mat-icon>cancel</mat-icon>
+                                                        </button>
+                                                    </mat-chip>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-chip-list>
+                                </div>
+                            </section>
+
+                            <button (click)="translateOnOff()" title="Преведи" class="mt-3 float-right" mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mt-2 mb-2">
+                            <mat-form-field appearance="outline" class="w-100 mt-1">
+                                <mat-label>Бројка на кластер</mat-label>
+                                <input formControlName="cluster_url" matInput>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-6 mt-2 mb-2">
+                            <button class="btn btn-primary mt-1 mr-2" mat-raised-button color="primary" (click)="scrapeGridMK();">grid.mk</button>
+                            <button class="btn btn-primary mt-1 mr-2" mat-raised-button color="primary" (click)="scrapeVestiMK();">vesti.mk</button>
+                            <button class="btn btn-primary mt-1 mr-2" mat-raised-button color="primary" (click)="scrapeFaxAl();">fax.al</button>
+                            <button class="btn btn-primary mt-1 mr-2" mat-raised-button color="primary" (click)="scrapeTimeMK();">time.mk</button>
+                        </div>
+
+                    </div>
+
+                    <button type="button" class="mt-4" *ngIf="editMode == false && groupAddButton == false" mat-raised-button color="primary" (click)="addClip(importantInformation.checked);">Додади
+                        клип</button>
+                    <button class="btn btn-primary my-1 mx-2" *ngIf="groupAddButton == true " mat-raised-button color="primary" (click)="addClipWithSelectedGroup(importantInformation.checked)">Зачувај клип и
+                        додади во група</button>
+                    <div *ngIf="editMode == true">
+                        <button class="btn btn-primary my-1 mx-2" mat-raised-button color="primary" (click)="editClip(clipIDForm); translateMode = false; editMode = false;">Измени</button>
+                        <button class="btn btn-primary my-1 mx-2" mat-raised-button color="primary" (click)="translateMode = false; editMode = false; resetForm()">Откажи Измени</button>
+                        <button class="btn btn-danger my-1 mx-2" mat-raised-button color="warn" (click)="translateMode = false; editMode = false; deleteClip(clipIDForm)">Избриши</button>
+                    </div>
+                </div>
+            </form>
+            <!-- PRINTED here-->
+            <!-- <div *ngIf="formSwitch == 'printedForm' && showClipForm == true">
+                <app-add-clip-pecaten></app-add-clip-pecaten>
+            </div> -->
+
+            <form autocomplete="off" [formGroup]="printedClipForm" *ngIf="formSwitch == 'printedForm' && showClipForm == true">
+                <div class="container">
+                    <div class="row">
+                        <label class="flex items-top pl-2">
+
+                            <div class="col-md-6">
+                                <label class="flex items-center">
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Избери медиум</mat-label>
+                                        <mat-select (selectionChange)="switchForms($event.value)" [(value)]="modeselect"
+                                            (input)="searchMedium()" formControlName="medium_id" matInput>
+                                            <mat-option>Избери медиум</mat-option>
+                                            <div *ngFor="let medium of mediumsList">
+                                                <mat-option value="{{medium.medium_id}}">{{
+                                                    medium.medium_name_cyrilic }}</mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </label>
+                        <label class="flex items-center;">
+                                    <mat-form-field appearance="outline" style="width: 100%; margin-right: 2%">
+                                        <mat-label>Датум на објава</mat-label>
+                                        <input matInput formControlName="created_at" [matDatepicker]="datePublished"
+                                            [min]="minDate">
+                                        <mat-datepicker-toggle matSuffix [for]="datePublished">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #datePublished></mat-datepicker>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Датум на клип</mat-label>
+                                        <input matInput formControlName="date_of_clip" [min]="minDate"
+                                            [matDatepicker]="dateClip">
+                                        <mat-datepicker-toggle matSuffix [for]="dateClip"></mat-datepicker-toggle>
+                                        <mat-datepicker #dateClip></mat-datepicker>
+                                    </mat-form-field>
+                                </label>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Наслов</mat-label>
+                            <input formControlName="clip_title" matInput>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Текст</mat-label>
+                            <textarea (keydown.control.q)="showKeywords()" #text (input)="generateBrief()" rows=18 formControlName="clip_text" matInput></textarea>
+                        </mat-form-field>
+                        <mat-checkbox [checked]="importantInformations" color="primary" #importantInformationPrinted fromControlName="important_information" style="margin-top: 2%; margin-left: 1%" matInput>Важна информација
+                        </mat-checkbox>
+                        <br>
+                        <button type="button" *ngIf="editMode == false && groupAddButton == false" mat-raised-button color="primary" (click)="addClipPrinted(importantInformationPrinted.checked);">Додади
+                                    клип</button>
+                        <!--  <button *ngIf="groupAddButton == true " mat-raised-button color="primary"
+                                    (click)="addClipWithSelectedGroup(importantInformation.checked)">Зачувај клип и
+                                    додади во група</button>
+                                <div *ngIf="editMode == true">
+                                    <button mat-raised-button color="primary"
+                                        (click)="editClip(clipIDForm); translateMode = false; editMode = false;">Измени</button>
+                                    <button style="margin-left: 2%" mat-raised-button color="primary"
+                                        (click)="translateMode = false; editMode = false; resetForm()">Откажи
+                                        Измени</button>
+                                    <button style="margin-left: 2%" mat-raised-button color="warn"
+                                        (click)="translateMode = false; editMode = false; deleteClip(clipIDForm)">Избриши</button>
+                                </div> -->
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Патека</mat-label>
+                                <input formControlName="clip_image_url" matInput>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <mat-label>Бриф</mat-label>
+                                <textarea maxlength="255" rows=4 formControlName="brief" matInput></textarea>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" style="width: 30%;">
+                                <mat-label>Страна</mat-label>
+                                <input formControlName="clip_pages" matInput>
+                            </mat-form-field>
+                            <mat-slide-toggle style="margin-left: 4%" color="primary" formControlName="clip_main_page">Насловна</mat-slide-toggle>
+                            <mat-slide-toggle style="margin-left: 4%" color="primary" formControlName="clip_image">Слика</mat-slide-toggle>
+                            <br>
+                            <mat-label>Површина</mat-label>
+                            <mat-slider formControlName="clip_area" thumbLabel style="margin-left: 2%" color="primary" min="0" max="12" step="1" value="3"></mat-slider>
+                            <br>
+                            <mat-radio-group formControlName="clip_research" color="primary" aria-label="Истражување">
+                                <mat-radio-button value="Сопствено">Сопствено</mat-radio-button>
+                                <mat-radio-button style="margin-left: 2%" value="Превземено">Превземено
+                                </mat-radio-button>
+                                <mat-radio-button style="margin-left: 2%" value="Пренесено">Пренесено
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <br>
+                            <mat-radio-group formControlName="clip_relevance" color="primary" aria-label="Релевантност">
+                                <mat-radio-button value="Спомнат клиент">Спомнат клиент</mat-radio-button>
+                                <mat-radio-button style="margin-left: 2%" value="Потесна област">Потесна област
+                                </mat-radio-button>
+                                <mat-radio-button style="margin-left: 2%" value="Поширока област">Поширока област
+                                </mat-radio-button>
+                            </mat-radio-group>
+                            <form [formGroup]="keywordForm">
+                                <mat-form-field appearance="outline" style="width: 100%;">
+                                    <mat-label>Клучни зборови <span class="badge bg-primary">CTRL + Q</span>
+                                    </mat-label>
+                                    <mat-chip-list #chipList>
+                                        <div *ngFor="let keyword of gridkeywordList">
+                                            <div *ngIf="text.value.match(keyword.keyword)">
+                                                <mat-chip>
+                                                    {{keyword.keyword}}
+                                                    <button matChipRemove (click)="removeKeyword(keyword.keyword_id)">
+                                                                <mat-icon>cancel</mat-icon>
+                                                            </button>
+                                                </mat-chip>
+                                            </div>
+                                        </div>
+                                        <textarea readonly rows=4 formControlName="keyword" matInput></textarea>
+                                    </mat-chip-list>
+                                </mat-form-field>
+                            </form>
+                            <mat-form-field appearance="outline" style="width: 100%;">
+                                <textarea readonly rows=3 matInput></textarea>
+                            </mat-form-field>
+                            <button title="Преведи" style="margin-top: 2%; margin-left: 92%" mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                        </div>
+                    </div>
+                    </label>
+                </div>
+        </div>
+        </form>
+        <!-- TV/RADIO here-->
+        <!-- <div *ngIf="formSwitch == 'tvRadioForm' && showClipForm == true">
+                <app-add-clip-tv-radio></app-add-clip-tv-radio>
+            </div> -->
+        <form autocomplete="off" [formGroup]="tvRadioClipForm" *ngIf="formSwitch == 'tvRadioForm' && showClipForm == true">
+            <div class="container">
+                <div class="row">
+                    <label class="flex items-top pl-2">
+
+                            <div class="col-md-6">
+                                <label class="flex items-center">
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Избери медиум</mat-label>
+                                        <mat-select (selectionChange)="switchForms($event.value)" [(value)]="modeselect"
+                                            (input)="searchMedium()" formControlName="medium_id" matInput>
+                                            <mat-option>Избери медиум</mat-option>
+                                            <div *ngFor="let medium of mediumsList">
+                                                <mat-option value="{{medium.medium_id}}">{{
+                                                    medium.medium_name_cyrilic }}</mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </label>
+                    <label class="flex items-center;">
+                                    <mat-form-field appearance="outline" style="width: 100%; margin-right: 2%">
+                                        <mat-label>Датум на објава</mat-label>
+                                        <input matInput formControlName="created_at" [matDatepicker]="datePublished"
+                                            [min]="minDate">
+                                        <mat-datepicker-toggle matSuffix [for]="datePublished">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #datePublished></mat-datepicker>
+                                    </mat-form-field>
+                                    <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Датум на клип</mat-label>
+                                        <input matInput formControlName="date_of_clip" [min]="minDate"
+                                            [matDatepicker]="dateClip">
+                                        <mat-datepicker-toggle matSuffix [for]="dateClip"></mat-datepicker-toggle>
+                                        <mat-datepicker #dateClip></mat-datepicker>
+                                    </mat-form-field>
+                                </label>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Наслов</mat-label>
+                        <input formControlName="clip_title" matInput>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                        <mat-label>Текст</mat-label>
+                        <textarea rows=5 formControlName="clip_text" matInput></textarea>
+                    </mat-form-field>
+                    <div class="flex items-center">
+                        <div class="form-check">
+                            <mat-checkbox [checked]="importantInformations" color="primary" #importantInformationTv fromControlName="important_information" style="margin-left:-10%" matInput>Важна информација</mat-checkbox>
+                        </div>
+
+                    </div>
+                    <button type="button" (click)="addClipTv(importantInformationTv.checked)" *ngIf="editMode == false && translateMode == false" mat-raised-button color="primary">Додади клип</button>
+                    <!--  <div *ngIf="editMode == true">
+                                    <button mat-raised-button color="primary"
+                                        (click)="editMode = false; editClip(clipIDForm)">Измени</button>
+                                    <button style="margin-left: 2%" mat-raised-button color="primary"
+                                        (click)="editMode = false; resetForm()">Откажи Измени</button>
+                                    <button style="margin-left: 2%" mat-raised-button color="warn"
+                                        (click)="editMode = false; deleteClip(clipIDForm)">Избриши</button>
+                                </div> -->
+                </div>
+
+
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Патека</mat-label>
+                            <input formControlName="video_url" matInput>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <mat-label>Бриф</mat-label>
+                            <textarea maxlength="255" rows=5 formControlName="brief" matInput></textarea>
+                        </mat-form-field>
+                        <!--                   <mat-form-field appearance="outline" style="width: 100%;">
+                                        <mat-label>Избери автори</mat-label>
+                                        <mat-select multiple (input)="searchAuthor()" formControlName="author_id"
+                                            matInput>
+                                            <div *ngFor="let author of authorList">
+                                                <mat-option value="{{author.author_id}}">{{ author.full_name_c }}
+                                                </mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </mat-form-field> -->
+                        <mat-form-field appearance="outline" style="width: 100%;">
+                            <textarea readonly rows=2 matInput></textarea>
+                        </mat-form-field>
+                        <button title="Преведи" style="margin-top: 2%; margin-left: 92%" mat-mini-fab color="primary" aria-label="Example icon button with a menu icon">
+                                        <mat-icon>edit</mat-icon>
+                                    </button>
+                    </div>
+                </div>
+                </label>
+            </div>
+    </div>
+    </form>
+</div>
+
+
+<!-- Buttons for groups START -->
+<div class="px-3" *ngIf="selectedClips.length != 0">
+    <button class="col-xl-2 col-lg-2 col-md-4 mt-3 mb-2 mx-2" mat-raised-button color="primary" (click)="makeClipGroup()">Направи група</button>
+    <button class="col-xl-2 col-lg-2 col-md-4 mb-2 mx-2" mat-raised-button color="primary" (click)="copyClipGroup()">Копирај група</button>
+    <button class="col-xl-2 col-lg-2 col-md-4 mb-2 mx-2" mat-raised-button color="primary" (click)="takeSreenshot()">Screenshot</button>
+    <button class="col-xl-2 col-lg-2 col-md-4 mb-2 mx-2" mat-raised-button color="primary" (click)="removeMainAndMakeGroup()">Одврзи и креирај група</button>
+    <button class="col-xl-2 col-lg-2 col-md-9 mb-2 mx-2" mat-raised-button color="warn" (click)="deleteMultipleClips()">Избриши селектирани</button>
+</div>
+<!-- Buttons for groups END -->
+
+
+<div class="col-md-12 search-results" id="infinite-1" infinite-scroll [infiniteScrollDistance]="2" [scrollWindow]="false" (scrolled)="onScroll()">
+    <div *ngIf="mediumFilterActivate == false && filterMode == false">
+        <!--<div *ngFor="let clip of funClipList | filterObject: {'clip_title':SearchString, 'isWeb':SearchWeb, 'isPrinted':SearchPrint}:true" class="container mt-2">-->
+        <div *ngFor="let clip of clipList | filterObject: {'clip_title':SearchString}:true; orderBy:{date_of_clip}" class="container mt-2">
+            <!--/old version show only main clip-->
+            <!--<div *ngIf="clip.main_clip == true" class="card bg-secondary">-->
+            <div class="card bg-secondary">
+                <section dndDropzone (dndDrop)="onDrop($event, clip.clip_id)">
+                    <div class="card-header text-white h-12 w-100">
+                        <div class="card-title">
+                            <span>{{ transformDate(clip.date_of_clip) }}  | <b>{{clip.medium_name_cyrilic }}</b></span>
+                            <mat-icon class="icons-clip" title="Генерирај PDF" (click)="generatePDF('open',clip.date_of_clip, clip.medium_name_cyrilic, clip.clip_title, clip.brief, clip.clip_text, clip.clip_url)">picture_as_pdf</mat-icon>
+                            <mat-icon class="icons-clip">picture_as_pdf</mat-icon>
+
+                            <span class="float-right">
+                                        <div class="d-flex " style="position: absolute; top: 2%; right: 26%;">
+                                            <mat-form-field>
+                                                <input class="pb-2" value="clip.created_at" matInput
+                                                    [matDatepicker]="datepickerRef" name="datepicker" ngModel
+                                                    #dateCtrl="ngModel" required readonly />
+                                                <mat-datepicker-toggle [for]="datepickerRef"
+                                                    matSuffix></mat-datepicker-toggle>
+                                                <mat-datepicker #datepickerRef></mat-datepicker>
+                                                <mat-error
+                                                    *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose
+                                                    a Date</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="d-flex" style="position: absolute; top: 1%; right: 12%;">
+                                            <input value="12:00" type="time" id="default-picker"
+                                                class="form-control mt-1" placeholder="Select time" #time>
+                                        </div>
+                                        <mat-icon
+                                            (click)="editMode = true; clipIDForm = clip.clip_id; translateMode = false; openClipForm(); loadClip(clip.medium_name_cyrilic,clip.created_at,clip.date_of_clip,clip.clip_title,clip.clip_title_english,clip.clip_text,clip.brief,clip.brief_english,clip.clip_url,clip.clip_image_url)"
+                                            class="icons-clip" title="Измени">edit</mat-icon>
+                                        <mat-icon (click)="deleteClip(clip.clip_id)" class="icons-clip"
+                                            title="Избриши">delete</mat-icon>
+                                        <mat-icon *ngIf="mainClip != clip.clip_id" (click)="setMainClip(clip.clip_id)"
+                                            class="icons-clip" title="Oзначи">stars</mat-icon>
+                                        <mat-icon *ngIf="mainClip == clip.clip_id" (click)="setMainClip(clip.clip_id)"
+                                            class="icons-clip" title="Oзначeно" style="color: #56fc57 ">stars</mat-icon>
+                                    </span>
+                        </div>
+                    </div>
+                </section>
+
+                <div class="card-body bg-white">
+                    <div class="flex items-center">
+                        <input (click)="selectClip(clip.clip_id, x.checked)" #x class="form-check-input ml-1 mt-2" type="checkbox" value="" id="defaultCheck1">
+                        <div class="ml-4">
+                            <div class="flex items-center">
+                                <div *ngFor="let clipTags of clipTagsList">
+                                    <div *ngIf="clip.clip_id == clipTags.clip.clip_id">
+                                        <div *ngFor="let tags of tagsList">
+                                            <div *ngIf="tags.tag_id == clipTags.tag.tag_id">
+                                                <span class="badge text-black mx-2" (click)="removeTagFromClip(clipTags.clip_tag_id)" [ngStyle]="{ 'background-color': tags.tag_color }">{{tags.tag_name_c}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="clip.important_information == true">
+                                <mat-icon>warning</mat-icon>
+                            </div>
+                            <b>{{ clip.clip_title }}</b>
+
+                        </div>
+                    </div>
+                    <div class="card-text">
+                        <p>{{(clip.brief.length>300)? (clip.brief | slice:0:300)+'...':(clip.brief)}}</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+            <!-- Group Starts -->
+            <div *ngIf="selectedClips.includes(clip.clip_id) && clip.clip_group != -1 && clip.main_clip">
+                <div *ngFor="let childClip of clipList">
+                    <div *ngIf="clip.clip_group == childClip.clip_group && childClip.main_clip == false">
+                        <!-- Clip Group Card Start -->
+                        <div class="card" style="margin-left: 4%;">
+                            <section dndDropzone (dndDrop)="onDrop($event, childClip.clip_id)">
+                                <div class="card-header" style="display: inline-block; background-color: rgba(255, 255, 255, 0.636);">
+                                    <mat-checkbox [checked]="true" color="primary"></mat-checkbox>
+                                    ( {{transformDate(childClip.date_of_clip)}} / {{transformDate(childClip.created_at)}} ) {{childClip.clip_title}}
+                                    <b>{{childClip.medium.medium_name_cyrilic}}</b>
+                                    <div class="flex items-center">
+                                        <div *ngFor="let clipTags of clipTagsList">
+                                            <div *ngIf="childClip.clip_id == clipTags.clip.clip_id">
+                                                <div *ngFor="let tags of tagsList">
+                                                    <div *ngIf="tags.tag_id == clipTags.tag.tag_id">
+                                                        <span class="badge" style="color: black; cursor: pointer;" (click)="removeTagFromClip(clipTags.clip_tag_id)" [ngStyle]="{ 'background-color': tags.tag_color }">{{tags.tag_name_c}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <mat-icon (click)="makeMainClip(childClip.clip_id, clip.clip_id)" title="Носечки клип" style="color: black; cursor: pointer">eject
+                                    </mat-icon>
+                                    <mat-icon (click)="removeClipFromGroup(childClip.clip_id)" title="Одврзи" style="color: black; cursor: pointer">link_off</mat-icon>
+                                    <mat-icon (click)="editMode = true; clipIDForm = childClip.clip_id;
+                                    translateMode = false; openClipForm();
+                                              loadClip(childClip.medium.medium_id.toString(),childClip.created_at,childClip.date_of_clip,
+                                              childClip.clip_title,childClip.clip_title_english,
+                                              childClip.clip_text,childClip.brief,childClip.brief_english,
+                                              childClip.clip_url,childClip.clip_image_url)" title="Измени" style="color: black; cursor: pointer">edit</mat-icon>
+                                </div>
+                            </section>
+                        </div>
+                        <!-- Clip Group Card End -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group Ends -->
+        </div>
+
+
+        <!--<div *ngFor="let clip of funClipPrintedList | filterObject: {'clip_title':SearchString, 'isWeb':SearchWeb, 'isPrinted':SearchPrint}:true" class="container mt-2">-->
+        <div *ngFor="let clip of funClipPrintedList | filterObject: {'clip_title':SearchString}:true" class="container mt-2">
+            <div *ngIf="clip.main_clip == true" class="card bg-secondary">
+                <section dndDropzone (dndDrop)="onDrop($event, clip.clip_id)">
+                    <div class="card-header text-white" style="height: 3rem; width: 100%;">
+                        <div class="form-check">
+                            {{ transformDate(clip.date_of_clip) }} | <b>{{ clip.medium_name_cyrilic
+                                        }}
+                                    </b>
+                            <mat-icon style="cursor: pointer; margin-left: 2%" (click)="generatePDF('open',clip.date_of_clip,
+                                clip.medium_name_cyrilic, clip.clip_title, clip.brief, clip.clip_text, clip.clip_url)">
+                                picture_as_pdf</mat-icon>
+                            <mat-icon style="cursor: pointer; margin-left: 2%">picture_as_pdf</mat-icon>
+
+                        </div>
+                        <b>
+                                    <div class="card-title">
+                                        <div class="flex items-center">
+                                            <label class="flex items-center" style="position: absolute;  right: 24%;">
+                                                <!--input type="date"
+                                        class="text-skyblue-600 form-control focus:border-skyblue-400 focus:outline-none focus:shadow-outline-skyblue"-->
+                                                <mat-form-field>
+                                                    <input value="clip.created_at" matInput
+                                                        [matDatepicker]="datepickerRef" name="datepicker" ngModel
+                                                        #dateCtrl="ngModel" required readonly />
+                                                    <mat-datepicker-toggle [for]="datepickerRef" matSuffix>
+                                                    </mat-datepicker-toggle>
+                                                    <mat-datepicker #datepickerRef></mat-datepicker>
+                                                    <mat-error *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">
+                                                        Choose a
+                                                        Date</mat-error>
+                                                </mat-form-field>
+                                            </label>
+                                            <div class="flex items-center md-form"
+                                                style="position: absolute; top: 2%; right: 12%; padding: 0px 0px 0px 0px">
+
+                                                <!--input mdc-datetime-picker="" date="false" time="true" placeholder="Time"
+                                        minutes="true" min-date="minDate" type="text" id="time2" format="HH:mm"
+                                        short-time="false" ng-model="timeutc" class="md-input"-->
+
+                                                <input value="12:00" type="time" id="default-picker"
+                                                    class="form-control" placeholder="Select time" #time>
+                                                <label for="default-picker"></label>
+                                            </div>
+                                            <button type="button" class="btn btn-edit mt-3 mr-2"
+                                                style="position: absolute; top: -6%; right: 7%;" (click)="editMode = true; clipIDForm = clip.clip_id;
+                                   translateMode = false; openClipForm();
+                                             loadClip(clip.medium_id.toString(),clip.created_at,clip.date_of_clip,clip.clip_title,clip.clip_title_english,
+                                             clip.clip_text,clip.brief,clip.brief_english,
+                                             clip.clip_url,clip.clip_image_url)">
+                                                <i class="fa fa-edit" style="font-size:22px"></i>
+                                            </button>
+                                            <button type="button" (click)="deleteClip(clip.clip_id)"
+                                                class="btn btn-trash mt-3 mr-2"
+                                                style="position: absolute; top: -6%; right:4%;">
+                                                <i class="fa fa-trash" style="font-size:22px"></i>
+                                            </button>
+                                            <button *ngIf="mainClip != clip.clip_id" type="button"
+                                                (click)="setMainClip(clip.clip_id)" class="btn btn-trash mt-3 mr-2"
+                                                style="position: absolute; top: -6%; right:0%;">
+                                                <mat-icon style="font-size:22px">stars</mat-icon>
+                                            </button>
+                                            <button *ngIf="mainClip == clip.clip_id" type="button"
+                                                (click)="setMainClip(clip.clip_id)" class="btn btn-trash mt-3 mr-2"
+                                                style="position: absolute; top: -6%; right:0%;">
+                                                <mat-icon style="font-size:22px; color: #56fc57 ">stars</mat-icon>
+                                            </button>
+
+                                            <!--class="btn btn-trash mt-3 mr-2" style="position: absolute; top: -5%; right:4%;">
+                                    <i class="fa fa-trash" style="font-size:22px"></i>
+                                </button-->
+
+
+                                        </div>
+                                    </div>
+                                </b>
+                    </div>
+                </section>
+                <div class="card-body" style="background-color: white">
+                    <div class="flex items-center">
+                        <input (click)="selectClip(clip.clip_id, x.checked)" #x class="form-check-input ml-1" type="checkbox" value="" id="defaultCheck1">
+                        <div class="ml-4">
+                            <div class="flex items-center">
+                                <div *ngFor="let clipTags of clipTagsList">
+                                    <div *ngIf="clip.clip_id == clipTags.clip.clip_id">
+                                        <div *ngFor="let tags of tagsList">
+                                            <div *ngIf="tags.tag_id == clipTags.tag.tag_id">
+                                                <span class="badge" style="color: black; cursor: pointer;" (click)="removeTagFromClip(clipTags.clip_tag_id)" [ngStyle]="{ 'background-color': tags.tag_color }">{{tags.tag_name_c}}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="clip.important_information == true">
+                                <mat-icon>warning</mat-icon>
+                            </div>
+                            <b>{{ clip.clip_title }}</b>
+
+                        </div>
+                    </div>
+                    <div class="card-text">
+                        {{ clip.brief }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group Starts -->
+            <div *ngIf="selectedClips.includes(clip.clip_id) && clip.clip_group != -1 && clip.main_clip">
+                <div *ngFor="let childClip of funClipList">
+                    <div *ngIf="clip.clip_group == childClip.clip_group && childClip.main_clip == false">
+                        <!-- Clip Group Card Start -->
+                        <div class="card" style="margin-left: 4%;">
+                            <section dndDropzone (dndDrop)="onDrop($event, childClip.clip_id)">
+                                <div class="card-header" style="display: inline-block; background-color: rgba(255, 255, 255, 0.636);">
+                                    <mat-checkbox [checked]="true" color="primary"></mat-checkbox>
+                                    ( {{transformDate(childClip.date_of_clip)}} / {{transformDate(childClip.created_at)}} ) {{childClip.clip_title}}
+                                    <b>{{childClip.medium_name_cyrilic}}</b>
+                                    <div class="flex items-center">
+                                        <div *ngFor="let clipTags of clipTagsList">
+                                            <div *ngIf="childClip.clip_id == clipTags.clip.clip_id">
+                                                <div *ngFor="let tags of tagsList">
+                                                    <div *ngIf="tags.tag_id == clipTags.tag.tag_id">
+                                                        <span class="badge" style="color: black; cursor: pointer;" (click)="removeTagFromClip(clipTags.clip_tag_id)" [ngStyle]="{ 'background-color': tags.tag_color }">{{tags.tag_name_c}}</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <mat-icon (click)="makeMainClip(childClip.clip_id, clip.clip_id)" title="Носечки клип" style="color: black; cursor: pointer">eject
+                                    </mat-icon>
+                                    <mat-icon (click)="removeClipFromGroup(childClip.clip_id)" title="Одврзи" style="color: black; cursor: pointer">link_off</mat-icon>
+                                    <mat-icon (click)="editMode = true; clipIDForm = childClip.clip_id;
+                                                         translateMode = false; openClipForm();
+                                              loadClip(childClip.medium_id.toString(),childClip.created_at,childClip.date_of_clip,
+                                              childClip.clip_title,childClip.clip_title_english,
+                                              childClip.clip_text,childClip.brief,childClip.brief_english,
+                                              childClip.clip_url,childClip.clip_image_url)" title="Измени" style="color: black; cursor: pointer">edit</mat-icon>
+                                </div>
+                            </section>
+                        </div>
+                        <!-- Clip Group Card End -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group Ends -->
+
+        </div>
+    </div>
+    <div *ngIf="mediumFilterActivate == true || filterMode == true">
+        <div *ngFor="let clip of filteredList | filterObject: {'clip_title':SearchString}:true" class="container mt-2">
+            <!--<div *ngFor="let clip of filteredList | filterObject: {'clip_title':SearchString, 'isWeb':SearchWeb, 'isPrinted':SearchPrint}:true" class="container mt-2">-->
+            <!--<div *ngIf="clip.main_clip == true" class="card bg-secondary">-->
+            <div class="card bg-secondary">
+                <div class="card-header text-white h-12 w-100">
+                    <div class="form-check">
+                        {{ transformDate(clip.date_of_clip) }} | <b>{{ clip.medium_name_cyrilic}}</b>
+                        <mat-icon style="cursor: pointer; margin-left: 2%" (click)="generatePDF('open',clip.date_of_clip,clip.medium_name_cyrilic, clip.clip_title, clip.brief,clip.clip_text, clip.clip_url)">picture_as_pdf</mat-icon>
+                        <mat-icon style="cursor: pointer; margin-left: 2%">picture_as_pdf</mat-icon>
+                    </div>
+                    <b>
+                                <div class="card-title">
+                                    <div class="flex items-center">
+                                        <label class="flex items-center" style="position: absolute;  right: 24%;">
+                                            <mat-form-field appearance="outline">
+                                                <mat-label>Датум</mat-label>
+                                                <input matInput [matDatepicker]="datepickerRef" name="datepicker"
+                                                    ngModel #dateCtrl="ngModel" required readonly />
+                                                <mat-datepicker-toggle [for]="datepickerRef"
+                                                    matSuffix></mat-datepicker-toggle>
+                                                <mat-datepicker #datepickerRef></mat-datepicker>
+                                                <mat-error
+                                                    *ngIf="dateCtrl.errors?.[required] && deptCtrl.touched">Choose
+                                                    a Date</mat-error>
+                                            </mat-form-field>
+                                        </label>
+                                        <div class="flex items-center md-form"
+                                            style="position: absolute; top: 2%; right: 12%; padding: 0px 0px 0px 0px">
+                                            <input type="time" id="default-picker" class="form-control"
+                                                placeholder="Select time">
+                                            <label for="default-picker"></label>
+                                        </div>
+                                        <button type="button" class="btn btn-edit mt-3 mr-2"
+                                            style="position: absolute; top: -6%; right: 7%;" (click)="editMode = true; clipIDForm = clip.clip_id; translateMode = false; openClipForm();
+                                             loadClip(clip.medium_id.toString(),clip.created_at,clip.date_of_clip,clip.clip_title,clip.clip_title_english,
+                                             clip.clip_text,clip.brief,clip.brief_english,
+                                             clip.clip_url,clip.clip_image_url)">
+                                            <i class="fa fa-edit" style="font-size:22px"></i>
+                                        </button>
+                                        <button type="button" (click)="deleteClip(clip.clip_id)"
+                                            class="btn btn-trash mt-3 mr-2"
+                                            style="position: absolute; top: -6%; right:4%;">
+                                            <i class="fa fa-trash" style="font-size:22px"></i>
+                                        </button>
+                                        <button *ngIf="mainClip != clip.clip_id" type="button"
+                                            (click)="setMainClip(clip.clip_id)" class="btn btn-trash mt-3 mr-2"
+                                            style="position: absolute; top: -6%; right:0%;">
+                                            <mat-icon style="font-size:22px">stars</mat-icon>
+                                        </button>
+                                        <button *ngIf="mainClip == clip.clip_id" type="button"
+                                            (click)="setMainClip(clip.clip_id)" class="btn btn-trash mt-3 mr-2"
+                                            style="position: absolute; top: -6%; right:0%;">
+                                            <mat-icon style="font-size:22px; color: #56fc57 ">stars</mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </b>
+                </div>
+
+                <div class="card-body" style="background-color: white">
+                    <div class="flex items-center">
+                        <input (click)="selectClip(clip.clip_id, x.checked)" #x class="form-check-input ml-1" type="checkbox" value="" id="defaultCheck1">
+                        <div class="ml-4">
+                            <div *ngIf="clip.important_information == true">
+                                <mat-icon>warning</mat-icon>
+                            </div>
+                            <b>{{ clip.clip_title }}</b>
+                        </div>
+                    </div>
+                    <div class="card-text">{{ clip.brief }}</div>
+                </div>
+            </div> -
+
+            <!-- Group Starts -->
+            <div *ngIf="selectedClips.includes(clip.clip_id) && clip.clip_group != -1 && clip.main_clip">
+                <div *ngFor="let childClip of clipList">
+                    <div *ngIf="clip.clip_group == childClip.clip_group && childClip.main_clip == false">
+                        <!-- Clip Group Card Start  -->
+                        <div class="card" style="margin-left: 4%;">
+                            <div class="card-header" style="display: inline-block; background-color: rgba(255, 255, 255, 0.636);">
+                                <mat-checkbox [checked]="true" color="primary"></mat-checkbox>
+                                ( {{transformDate(childClip.date_of_clip)}} / {{transformDate(childClip.created_at)}} ) {{childClip.clip_title}}
+                                <div *ngFor="let medium of mediumsList">
+                                    <div *ngIf="medium.medium_id == childClip.medium.medium_id">
+                                        <b>{{medium.medium_name_cyrilic}}</b>
+                                    </div>
+                                </div>
+                                <mat-icon (click)="makeMainClip(childClip.clip_id, clip.clip_id)" title="Носечки клип" style="color: black; cursor: pointer">eject</mat-icon>
+                                <mat-icon (click)="removeClipFromGroup(childClip.clip_id)" title="Одврзи" style="color: black; cursor: pointer">link_off</mat-icon>
+                                <mat-icon title="Измени" style="color: black; cursor: pointer">edit</mat-icon>
+                            </div>
+                        </div>
+                        <!-- Clip Group Card End -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Group Ends -->
+
+        </div>
+    </div>
+
+
+</div>
+
+</div>
+</div>

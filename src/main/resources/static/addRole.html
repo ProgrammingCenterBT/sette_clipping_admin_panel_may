@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Sette - Add Role</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Row 1 Start-->
+            <div class="row">
+                <center> <img src="Sette_logo.png" alt="Sette Logo" style="display:block;margin:0 auto;width:300px;margin-top:5%"> </center>
+            </div>
+            <!-- Row 1 END-->
+        </div>
+        <br>
+    <center><h1>Креирај нов Role</h1></center>
+        <!-- Login Form-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+        <div class="login addrole-row">
+                <form action="/action_page.php">
+                    <!-- Role Name -->
+                <div class="mb-3 mt-3">
+                    <label for="roleName" class="form-label">Име на Role</label>
+                    <input type="text" class="form-control" id="roleName" placeholder="Внеси име на role" name="roleName">
+                </div>
+                    <!-- END Role Name -->
+                    <p>Одбери дозволени функции</p>
+                    <!-- Check 1 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        All
+                        </label>
+                    </div>
+                    <!-- Check 1 END -->
+                    <!-- Check 2 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Insert
+                        </label>
+                    </div>
+                    <!-- Check 2 END -->
+                    <!-- Check 3 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Update
+                        </label>
+                    </div>
+                    <!-- Check 3 END -->
+                    <!-- Check 4 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Delete
+                        </label>
+                    </div>
+                    <!-- Check 4 END -->
+            <button type="submit" class="btn btn-primary">Зачувај</button>
+        </form>
+        </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login Form END -->
+    </body>
+</html>

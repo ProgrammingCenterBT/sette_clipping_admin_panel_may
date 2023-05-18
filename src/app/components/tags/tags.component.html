@@ -1,0 +1,122 @@
+<app-header></app-header>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12 mt-2">
+            <h1 class="text-center font-bold">Тагови</h1>
+            <mat-form-field appearance="outline" class="w-responsive">
+                <mat-label>Пребарај</mat-label>
+                <!-- <input matInput type="next" [(ngModel)]="selectedCategoryFilter" name="selectedCategoryFilter"> -->
+                <input matInput type="next" name="searchString" [(ngModel)]="searchString" (ngModelChange)="filterData()">
+            </mat-form-field>
+
+            <button *ngIf="showTagsForm == false" class="btn btn-primary m-2" (click)="openTagsForm();"><span
+                    class="font-bold mr-1">+</span>Додади таг</button>
+            <button *ngIf="showTagsForm == true" class="btn btn-primary m-2" (click)="openTagsForm();"><span
+                    class="font-bold mr-1">X</span>Сокриј</button>
+
+
+
+            <div *ngIf="showTagsForm == true">
+                <div class="col-sm-12 col-md-4 col-lg-4 col-xl-4 float-sm-end float-md-start float-lg-start float-xl-start mb-5">
+                    <div class="flex-1 max-w-4xl mx-auto overflow-hidden bg-white m-lg-3 m-md-auto  rounded-lg shadow-xl">
+                        <div class="div-1 flex items-center justify-center p-6 sm:p-12">
+                            <div class="w-full">
+                                <mat-tab-group dynamicHeight>
+                                    <!-- Tab Dodadi Tag Start-->
+                                    <mat-tab label="Додади Таг">
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">Тагот постои</div>
+                                        <div class="alert alert-warning" [hidden]="alert_warning_form==false">Пополнете го правилно формуларот</div>
+                                        <form [formGroup]="tagForm">
+                                            <h3 class="mt-5 mb-4 text-xl font-semibold text-gray-700">
+                                                ДОДАДЕТЕ ТАГ
+                                                <mat-checkbox color="primary" (click)="checkParentTag()" [checked]="parentTagChecked" class="float-right" #c fromControlName="parent_tag" matInput>Parent Tag</mat-checkbox>
+                                            </h3>
+
+                                            <mat-form-field appearance="outline" class="mt-1 w-100">
+                                                <mat-label>Име на кирилица</mat-label>
+                                                <input formControlName="tag_name_c" matInput>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="mt-2 w-100">
+                                                <mat-label>Име на латиница</mat-label>
+                                                <input formControlName="tag_name_l" matInput>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="mt-2 w-100">
+                                                <mat-label>Избери Parent Tag</mat-label>
+                                                <mat-select class="mt-2 mb-n1" formControlName="parent_tag_id" [(ngModel)]="selectedDropdownParent" (ngModelChange)="onChangeDropdownParent(selectedDropdownParent)" (selectionChange)="onChangeDropdownParent(selectedDropdownParent)" [disabled]="c.checked">
+                                                    <mat-option *ngFor="let tag of tagsList" [value]="tag.tag_id">
+                                                        {{tag.tag_name_c}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="mt-2 mb-2 w-100">
+                                                <mat-label>Избери Категорија</mat-label>
+                                                <mat-select class="mt-2 mb-n1" formControlName="tags_category_id" [(ngModel)]="selectedDropdown" (ngModelChange)="onChangeDropdown(selectedDropdown)" (selectionChange)="onChangeDropdown(selectedDropdown)">
+                                                    <mat-option *ngFor="let tagCategory of tagsCategoriesList" [value]="tagCategory.tags_category_id">
+                                                        {{tagCategory.tags_category_name}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <mat-form-field appearance="outline" class="mt-2 w-100">
+                                                <mat-label>Избери Боја</mat-label>
+                                                <!-- <input type="color" formControlName="tag_color" value="#563d7c" matInput [disabled]="c.checked"> -->
+                                                <input type="color" formControlName="tag_color" value="#563d7c" matInput [disabled]="!parentTagChecked" >
+                                            </mat-form-field>
+                                        </form>
+                                        <button class="btn btn-primary w-100 mt-3" *ngIf="editMode == false" mat-raised-button color="primary" (click)="addTag(c.checked)">Додади
+                                            таг</button>
+                                        <div class="text-center" t *ngIf="editMode == true">
+                                            <button class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1" mat-raised-button color="primary" (click)="editTag(tagID, position,c.checked);">Измени</button>
+                                            <button class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-5 mt-3 mx-1" mat-raised-button color="primary" (click)="this.resetTagForm(); editMode = false">Откажи Измени</button>
+                                            <button class="btn btn-danger col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1" mat-raised-button color="warn" (click)="deleteTag(tagID, tagName);">Избриши</button>
+                                        </div>
+                                    </mat-tab>
+
+                                    <mat-tab label="Додади Категорија">
+                                        <h3 class="mt-5 mb-4 text-xl font-semibold text-gray-700">ДОДАДЕТЕ КАТЕГОРИЈА
+                                        </h3>
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">Категоријата постои</div>
+                                        <form [formGroup]="tagCategoryForm" autocomplete="off">
+                                            <mat-form-field appearance="outline" class="mt-2 mb-5 w-100">
+                                                <mat-label>Име на категорија</mat-label>
+                                                <input formControlName="tags_category_name" matInput>
+                                            </mat-form-field>
+                                        </form>
+                                        <button class="btn btn-primary w-100 mt-2" (click)="addTagCategory()" mat-raised-button color="primary">Додади категорија</button>
+                                    </mat-tab>
+                                    <mat-tab label="Избриши Категорија">
+                                        <h3 class="mt-5 mb-4 text-xl font-semibold text-gray-700">
+                                            ИЗБРИШЕТЕ КАТЕГОРИЈА
+                                        </h3>
+                                        <div class="alert alert-warning" [hidden]="alert_warning==false">Категоријата се користи
+                                        </div>
+                                        <form [formGroup]="deleteTagCategoryForm" autocomplete="off">
+                                            <mat-form-field appearance="outline" class="mt-2 mb-5 w-100">
+                                                <mat-label>Категорија</mat-label>
+                                                <mat-select class="mt-2 mb-n1" formControlName="tags_category_id" matInput [(ngModel)]="selectedDropdownDelete" (ngModelChange)="onChangeDropdownDelete(selectedDropdownDelete)" (selectionChange)="onChangeDropdownDelete(selectedDropdownDelete)">
+                                                    <div *ngFor="let tagCategory of tagsCategoriesList;let indexOfelement=index;">
+                                                        <mat-option value="{{tagCategory.tags_category_id}}">{{tagCategory.tags_category_name}}
+                                                        </mat-option>
+                                                    </div>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </form>
+                                        <button class="btn btn-danger w-100 mt-2" (click)="deleteTagsCategories()" mat-raised-button color="warn">Избриши категорија</button>
+                                    </mat-tab>
+                                </mat-tab-group>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="search-results mt-2 mr-1" id="infinite-1" infinite-scroll [scrollWindow]="false" (scrolled)="onScrollUp()">
+                <div *ngFor="let tag of tagsList?.slice()| filterAll: selectedCategoryFilter;let indexOfelement=index;orderBy:{tag_name_l}" class="col-sm-2 col-md-2 col-lg-2 col-xl-2 px-1 py-1">
+                    <button (click)="parentTagChecked = tag.parent_tag; tagID = tag.tag_id; loadTag(tag,indexOfelement); keepOpen(); editMode = true; tagName = tag.tag_name_c" class="h-12 px-lg-3 w-h-fixed bg-sette rounded" [ngStyle]="{ 'background-color': tag.tag_color }">
+                        <p class="text-gray-700 card-text text-p">{{ tag.tag_name_c}} / {{ tag.tag_name_l}}</p>
+                        <span class="tctype">{{ tag.tags_category.tags_category_name}}</span>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Sette - Add User</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="style.css" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.2/dist/js/bootstrap.bundle.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Row 1 Start-->
+            <div class="row">
+                <center> <img src="Sette_logo.png" alt="Sette Logo" style="display:block;margin:0 auto;width:300px;margin-top:5%"> </center>
+            </div>
+            <!-- Row 1 END-->
+        </div>
+        <br>
+    <center><h1>Креирај нов корисник</h1></center>
+        <!-- Login Form-->
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-4"></div>
+                <div class="col-sm-4">
+        <div class="login addrole-row">
+                <form action="/action_page.php">
+                    <!-- Name -->
+                <div class="mb-3 mt-3">
+                    <label for="name" class="form-label">Име</label>
+                    <input type="text" class="form-control" id="name" placeholder="Внеси име" name="name">
+                </div>
+                    <!-- END Name -->
+                    <!-- Short Name -->
+                <div class="mb-3 mt-3">
+                    <label for="shortName" class="form-label">Кратко Име</label>
+                    <input type="text" class="form-control" id="shortName" placeholder="Внеси кратко име" name="shortName">
+                </div>
+                    <!-- END Short Name -->
+                    <!-- User Name -->
+                <div class="mb-3 mt-3">
+                    <label for="userName" class="form-label">Корисничко Име</label>
+                    <input type="text" class="form-control" id="userName" placeholder="Внеси корисничко име" name="userName">
+                </div>
+                    <!-- END User Name-->
+                    <!-- Password -->
+                <div class="mb-3 mt-3">
+                    <label for="password" class="form-label">Лозинка</label>
+                    <input type="password" class="form-control" id="password" placeholder="Внеси име лозинка" name="password">
+                </div>
+                    <!-- END Password -->
+                    <!-- Email -->
+                <div class="mb-3 mt-3">
+                    <label for="email" class="form-label">Емаил</label>
+                    <input type="text" class="form-control" id="email" placeholder="Внеси емаил адреса" name="email">
+                </div>
+                    <!-- END Email -->
+                    <!-- BCC -->
+                <div class="mb-3 mt-3">
+                    <label for="bcc" class="form-label">BCC</label>
+                    <input type="text" class="form-control" id="bcc" placeholder="Внеси bcc" name="bcc">
+                </div>
+                    <!-- END BCC -->
+                    <!-- Dropdown START -->
+                    <p>Избери Role</p>
+  <div class="dropdown-user ">
+      <select id="select" name="select" class="custom-select">
+        <option value="superAdmin">Super Administrator</option>
+        <option value="admin">Administrator</option>
+        <option value="officeManager">Office Manager</option>
+      </select>
+    </div>
+                    <!-- Dropdown END -->
+                    <p>Одбери дозволени функции</p>
+                    <!-- Check 1 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Клип
+                        </label>
+                    </div>
+                    <!-- Check 1 END -->
+                    <!-- Check 2 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Медиум
+                        </label>
+                    </div>
+                    <!-- Check 2 END -->
+                    <!-- Check 3 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Автор
+                        </label>
+                    </div>
+                    <!-- Check 3 END -->
+                    <!-- Check 4 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Таг
+                        </label>
+                    </div>
+                    <!-- Check 4 END -->
+                    <!-- Check 5 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Клиент
+                        </label>
+                    </div>
+                    <!-- Check 5 END -->
+                    <!-- Check 6 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Тендер
+                        </label>
+                    </div>
+                    <!-- Check 6 END -->
+                    <!-- Check 7 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Саем
+                        </label>
+                    </div>
+                    <!-- Check 7 END -->
+                    <!-- Check 8 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Стечаи
+                        </label>
+                    </div>
+                    <!-- Check 8 END -->
+                    <!-- Check 9 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Продажби
+                        </label>
+                    </div>
+                    <!-- Check 9 END -->
+                    <!-- Check 10 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Cyberwatcher
+                        </label>
+                    </div>
+                    <!-- Check 10 END -->
+                    <!-- Check 11 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Економ.
+                        </label>
+                    </div>
+                    <!-- Check 11 END -->
+                    <!-- Check 12 START -->
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                        <label class="form-check-label" for="flexCheckDefault">
+                        Известувања
+                        </label>
+                    </div>
+                    <!-- Check 12 END -->
+            <button type="submit" class="btn btn-primary">Зачувај</button>
+        </form>
+        </div>
+                </div>
+            </div>
+        </div>
+        <!-- Login Form END -->
+    </body>
+</html>

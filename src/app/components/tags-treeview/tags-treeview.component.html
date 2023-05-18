@@ -1,0 +1,66 @@
+<!--<div class="form-group">
+    <select class="form-control w-1 mt-5 ml-2 mr-5"  onchange="location = this.value;">
+        <option value="">Клип</option>
+        <option value="/tenders">Тендери</option>
+        <option value="/stecai">Стечаи</option>
+        <option value="/sales">Продажби</option>
+        <option value="/nostrifications">Известувања</option>
+    </select>
+</div>-->
+<div class="container">
+    <div class="text-left mt-2">
+        <div class="row">
+            <!--<div class="col-md-4"> -->
+
+            <!-- Master Checkbox -->
+            <!-- <ul class="list-group">
+                <li class="div-1 list-group-item mb-8">
+
+                   <!-- <span (click)="selectUnselectAll(data)">
+                        <span *ngIf="data.isAllSelected;else noneSelected">Отселектирај се </span>
+                        <ng-template #noneSelected>Селектирај се </ng-template>
+                    </span> -->
+
+            <!--Master Expand/ Collapse Arrow  --
+                    <span (click)="expandCollapseAll(data)">
+                        <i class="fas fa-angle-up" *ngIf="data.isAllCollapsed;else isCollapsed"></i>
+                        <ng-template #isCollapsed><i class="fas fa-angle-down"></i></ng-template>
+                    </span>
+
+                </li>
+            </ul>-->
+
+
+            <ul class="div-2 ">
+
+                <!-- Parent Item -->
+                <li class="mt-2" *ngFor="let item of data.ParentChildchecklist">
+
+                    <!-- Parent Checkbox -->
+                    <input type="checkbox" [(ngModel)]="item.isSelected" name="list_name" value="{{item.id}}"
+                        (ngModelChange)="parentCheck(item)" />
+                    {{item.value}}
+                    <!-- Parent Arrow -->
+                    <span (click)="expandCollapse(item)">
+                        <i class="fas fa-angle-up" *ngIf="item.isClosed;else isCollapsed"></i>
+                        <ng-template #isCollapsed>
+                            <i class="fas fa-angle-down"></i>
+                        </ng-template>
+                    </span>
+                    <div class="child-list ml-3" [hidden]="item.isClosed">
+
+                        <ul class="level-two mt-2">
+                            <!-- Child Item -->
+                            <li class=" level-two" *ngFor="let itemChild of item.childList">
+                                <!-- Child Checkbox -->
+                                <input type="checkbox" [(ngModel)]="itemChild.isSelected" name="list_name_child"
+                                    value="{{itemChild.id}}" (ngModelChange)="childCheck(item,item.childList)"/>
+                                {{itemChild.value}}
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

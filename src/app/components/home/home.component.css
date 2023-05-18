@@ -1,0 +1,187 @@
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown:hover .dropbtn {
+  background-color: teal;
+}
+
+.div-6.min-w-0 {
+  background-color: #EBEDF2; 
+}
+
+.div-4.col-md-2, .accordion, .z-20, .py-4  {
+  background-color: rgb(150, 174, 190); 
+}
+
+
+.btn-primary {
+background-color: rgb(36, 72, 150);
+border: none;
+}
+
+.btn-secondary {
+background-color: rgb(222,222,221);
+border: none; 
+color: rgb(36, 72, 150);
+font-weight: bold;
+}
+
+.btn.btn-secondary-2 {
+background-color: rgb(36, 72, 150);;
+border: none; 
+color: rgb(222,222,221);
+font-weight: bold;
+}
+
+.card-header {
+background-color: #678192; 
+}
+
+.btn-secondary.dropdown-toggle{
+background-color: #EBEDF2;
+border: none;
+color: rgb(36, 72, 150);
+
+font-size: 16px;
+cursor: pointer;
+}
+
+.btn.btn-edit, .btn.btn-trash {
+background-color: bg-secondary;
+border:none;
+color: white;
+cursor: pointer;
+}
+
+.card-text {
+font-size: 12px;
+text-align: justify;
+}
+.card-body {
+padding: 8px;
+}
+
+.mat-form-field-wrapper{
+padding: 0px 0px 0px 0px;
+}
+.ngx-mat-timepicker{
+margin: 0px 0px 0px 0px;
+padding: 0px 0px 0px 0px;
+
+}
+.ngx-mat-timepicker form .ngx-mat-timepicker-table .ngx-mat-timepicker-tbody tr td .mat-icon-button .mat-icon{
+font-size: 8px;
+}
+.mat-form-field-appearance-legacy .mat-form-field-infix {
+padding: 0% 0%;
+}
+.div-0{
+margin: 0px 0px 0px 0px;
+padding: 0px 0px 0px 0px;
+}
+div-0.ngx-mat-timepicker form .ngx-mat-timepicker-table .ngx-mat-timepicker-tbody tr td .mat-icon-button .mat-icon{
+  font-size: 8px;
+  }
+.div-0.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0% 0%;
+  }
+button {
+border: none;
+}
+ 
+.z-10 {
+background-color: #EBEDF2;
+color: rgb(36, 72, 150);
+}
+
+.header
+{
+  background-color: #EBEDF2;
+  color: rgb(36, 72, 150);
+}
+
+.div-1.flex {
+  color: white;
+  color: rgb(36, 72, 150);
+}
+
+.mat-form-field {
+  margin-bottom: -4%;
+}
+
+.file-input {
+  display: none;
+}
+
+.navbar-nav-right{
+  margin-left: auto;
+}
+.icons-clip{
+  cursor: pointer;
+  font-size: 1.6rem;
+  margin: 0px 3px;
+  height: 15px;
+  width: 18px;
+}
+.w-49{
+  width: 49%;
+}
+
+ /*Infinite scroll */
+
+ .search-results{
+  height: 450px;
+  overflow: auto;
+}
+ #infinite-1::-webkit-scrollbar-track
+ {
+   -webkit-box-shadow: inset 0 0 6px rgb(36, 72, 150);
+   border-radius: 10px;
+   background-color: #F5F5F5;
+ }
+ 
+ #infinite-1::-webkit-scrollbar
+ {
+   width: 12px;
+   background-color: #F5F5F5;
+ }
+ 
+ #infinite-1::-webkit-scrollbar-thumb
+ {
+   border-radius: 10px;
+   -webkit-box-shadow: inset 0 0 6px rgb(36, 72, 150);
+   background-color: rgb(36, 72, 150);
+ }

@@ -1,0 +1,98 @@
+<app-header></app-header>
+
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center font-bold mt-3 mb-3">Корисници</h1>
+
+        <div class="col-sm-4 col-md-4 col-lg-4 col-xl-4 mb-5">
+            <div class="flex-1 overflow-hidden bg-white rounded-lg shadow-xl">
+                <div class="div-1 flex justify-center sm:p-12">
+                    <div>
+                        <div class="alert alert-warning" [hidden]="alert_warning==false">Корисникот постои</div>
+                        <form [formGroup]="userForm">
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-label>Име</mat-label>
+                                <input formControlName="full_name" matInput>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="mt-1 w-100">
+                                <mat-label>Корисничко Име</mat-label>
+                                <input formControlName="username" matInput>
+                            </mat-form-field>
+                            <mat-form-field appearance="outline" class="mt-1 w-100">
+                                <mat-label>Лозинка</mat-label>
+                                <input type="password" formControlName="user_password" matInput>
+                            </mat-form-field>
+                            <hr class="my-2">
+                            <div class="row my-1">
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowClips" #aClips formControlName="allow_clips" matInput>Клип</mat-checkbox>
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowBankruptcies" #aBankruptcies formControlName="allow_bankruptcies">Стечаи</mat-checkbox>
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowTenders" #aTenders formControlName="allow_tenders">Тендери</mat-checkbox>
+                                </div>
+                            </div>
+                            <div class="row  my-1">
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowNotifications" #aNotifications formControlName="allow_notifications">Известувања</mat-checkbox>
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowSales" #aSales formControlName="allow_sales">Продажби</mat-checkbox>
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowMediums" #aMediums formControlName="allow_mediums">Медиуми</mat-checkbox>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowAuthors" #aAuthors formControlName="allow_authors">Автори</mat-checkbox>
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowTags" #aTags formControlName="allow_tags">Тагови</mat-checkbox>
+                                </div>
+                                <div class="col-sm-4 col-md-4 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowClients" #aClients formControlName="allow_clients">Клиенти</mat-checkbox>
+                                </div>
+                            </div>
+                            <div class="row my-1">
+                                <div class="col-sm-4 col-md-5 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowSocials" #aSocials formControlName="allow_socials">Социјални</mat-checkbox>
+                                </div>
+                                <div class="col-sm-4 col-md-5 col-xl-4">
+                                    <mat-checkbox class="material-cbox" color="primary" [checked]="allowAdministrators" #aAdministrators formControlName="allow_administrators">Администратори</mat-checkbox>
+                                </div>
+                            </div>
+                            <hr class="my-2">
+                        </form>
+                        <button class="btn btn-primary mt-3 mb-2" *ngIf="editMode == false" mat-raised-button color="primary" (click)="addUser(aClips.checked, aBankruptcies.checked, aTenders.checked, aNotifications.checked, aSales.checked, aMediums.checked, aAuthors.checked, aTags.checked, aClients.checked, aSocials.checked, aAdministrators.checked);">Додади корисник</button>
+                        <div class="text-center" *ngIf="editMode == true">
+                            <button class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1" mat-raised-button color="primary" (click)="editMode = false; editUser(userID, aClips.checked, aBankruptcies.checked, aTenders.checked, aNotifications.checked, aSales.checked, aMediums.checked, aAuthors.checked, aTags.checked, aClients.checked, aSocials.checked, aAdministrators.checked);">Измени</button>
+                            <button class="btn btn-primary col-sm-4 col-12 col-md-12 col-lg-12 col-xl-5  mt-3 mx-1" mat-raised-button color="primary" (click)="editMode = false; resetForm(); ">Откажи Измени</button>
+                            <button class="btn btn-danger col-sm-4 col-12 col-md-12 col-lg-12 col-xl-3 mt-3 mx-1" mat-raised-button color="warn" (click)="deleteUser(userID, fullName);">Избриши</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8 col-md-8 col-lg-8 col-xl-8">
+            <mat-form-field appearance="outline" class="w-responsive">
+                <mat-label>Пребарај</mat-label>
+                <input matInput type="next" name="searchString" [(ngModel)]="searchString">
+            </mat-form-field>
+
+
+            <div class="search-results" id="infinite-1" infinite-scroll [scrollWindow]="false" (scrolled)="onScrollDown($event)" (scrolledUp)="onScrollUp($event)">
+                <div *ngFor="let user of usersList?.slice().reverse() | filterAll: searchString; orderBy:{username}" class="col-sm-12 col-md-12 col-lg-12 col-xl-12 px-1 bottom-m">
+                    <button class="bg-sette rounded w-h-fixed" (click)=" editMode = true; userID = user.user_id; fullName = user.full_name;loadUsers(user.full_name, user.username, user.user_password, user.allow_clips, user.allow_tenders, user.allow_bankruptcies, user.allow_sales, user.allow_notifications, user.allow_mediums, user.allow_authors,  user.allow_tags, user.allow_clients, user.allow_socials, user.allow_administrators);">
+                <div class="flex items-center">
+                    <mat-checkbox (click)="selectUsers(user.user_id)" [checked]="selectAll" color="primary"></mat-checkbox>
+                    <p class="size-12">{{ user.full_name }}</p>
+                </div>
+            </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> 
