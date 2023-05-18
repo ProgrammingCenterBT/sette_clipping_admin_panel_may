@@ -26,6 +26,7 @@
         "@angular/router": "~13.1.0",
         "@syncfusion/ej2-angular-dropdowns": "^19.4.56",
         "browser-module": "^0.0.1",
+        "express": "^4.18.2",
         "moment": "^2.29.3",
         "ngx-capture": "^0.12.2",
         "ngx-drag-drop": "^13.0.0",
